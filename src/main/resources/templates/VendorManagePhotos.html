@@ -51,22 +51,95 @@
         <script>
             function uploadPhoto() {
                 var photo = document.getElementById("photo").files[0];
-                var desc = document.getElementById("description").value;
+                var pdesc = document.getElementById("pdesc").value;
+
+                if (!photo || !pdesc) {
+                    alert("Both photo and description are required.");
+                    return;
+                }
 
                 var formdata = new FormData();
                 formdata.append("photo", photo);
-                formdata.append("description", desc);
+                formdata.append("pdesc", pdesc);
 
-                fetch("/uploadPhoto", {
+                fetch("/VendorManagePhotos", {
                     method: "POST",
                     body: formdata
                 })
                         .then(response => response.text())
                         .then(ans => {
-                            alert(ans);
+                            if (ans.trim() === "success") {
+                                alert("Photo added successfully!");
+                                getPhotos();
+                            } else {
+                                alert("Something went wrong: " + ans);
+                            }
                         });
             }
+
+
+            function getPhotos() {
+                fetch("/VendorShowPhotos", {
+                    method: "POST" // FIXED: use POST to match backend
+                })
+                        .then(response => response.text())
+                        .then(text => {
+                            try {
+                                var data = JSON.parse(text);
+                                renderPhotos(data);
+                            } catch (e) {
+                                console.error("Error parsing JSON:", text);
+                                alert("Something went wrong: " + text);
+                            }
+                        })
+                        
+            }
+
+            function renderPhotos(data) {
+                var container = document.getElementById("photoContainer");
+                container.innerHTML = ""; // Clear old content
+
+                data.forEach(photoObj => {
+                    var card = `
+<div class="card" style="width: 18rem; margin:10px; display:inline-block;">
+    <img src="/myUploads/VendormyUploads/${photoObj.photo}" class="card-img-top" style="height:200px; object-fit:cover;">
+    <div class="card-body">
+        <p class="card-text">${photoObj.p_desc}</p>
+        <button class="btn btn-danger" onclick="deletePhoto('${photoObj.photo}')">Delete</button>
+    </div>
+</div>`;
+                    container.innerHTML += card;
+                });
+            }
+
+            function deletePhoto(photoName) {
+                var formData = new FormData();
+                formData.append("photo", photoName);
+
+                fetch("/DeleteVendorPhoto", {
+                    method: "POST",
+                    body: formData
+                })
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans.trim() === "success") {
+                                alert("Photo deleted successfully!");
+                                getPhotos(); // Refresh photos
+                            } else {
+                                alert("Failed to delete photo: " + ans);
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Error deleting photo");
+                        });
+            }
+
+            window.onload = function () {
+                getPhotos(); // Load photos on page load
+            };
         </script>
+
 
     </head>
 
@@ -202,18 +275,18 @@
             <div class="contact-form">
 
                 <h2>Manage Photos</h2>
-                <form action="#" method="post" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-lg-6">
-                        <input type="file" id="photo" name="photo" placeholder="Vendor Photo">
-                        </div>
-                        <div class="col-12">
-                            <textarea name="message" cols="30" rows="10" id="description" placeholder="Vendor Description"></textarea>
-                            <input type="button" onclick="uploadPhoto()" value="Add">
-                        </div>
-                    </div>
+                <form onsubmit="event.preventDefault();
+                        uploadPhoto();">
+                    <input type="file" id="photo" name="photo">
+                    <textarea id="pdesc" placeholder="Vendor Description"></textarea>
+                    <input type="button" onclick="uploadPhoto()" value="Add">
                 </form>
+
             </div>
+            <div id="photoContainer" style="padding: 20px;">
+                <!-- Cards will be added here dynamically -->
+            </div>
+
         </section>
         <!-- End login-area section -->
 

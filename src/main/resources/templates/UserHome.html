@@ -33,16 +33,41 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
         <style>
-            .single-service {
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            .blinking-text
+            {
+                color: #1e3a8a;
+                background-color: #f0f8ff;
+                font-size: 24px;
+                font-weight: bold;
+                text-align: center;
+                padding: 10px 20px;
+                border-radius: 8px;
+                animation: blink 1s infinite;
             }
 
-            .single-service:hover {
-                transform: scale(1.05);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-                z-index: 1;
+            @keyframes blink
+            {
+                {
+                    opacity: 1;
+                }
+                50%
+                {
+                    opacity: 0;
+                }
             }
+
         </style>
+        <script>
+            function loadCities() {
+                fetch("/UserGetAllCities")
+                        .then(response => response.text())
+                        .then(data => {
+                            document.getElementById("cityCards").innerHTML = data;
+                        });
+            }
+
+            window.onload = loadCities;
+        </script>
 
     </head>
 
@@ -174,121 +199,17 @@
         <!-- End breadcrumbs section -->
 
         <!-- Start login-area section -->
-<!--        <section id="down" class="login-area sec-p">-->
-<br>
-<br>
-<br>
-            <div class="container">
-                <div class="row g-4">
-
-                    <!-- Card 1 -->
-                    <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                        <div class="single-service layout-2 layout-3">
-                            <div class="thumb">
-                                <a href="AdminManageCities"><img src="assets/images/services/service-1.jpg" alt=""></a>
-                                <div class="tag">
-                                    <a href="AdminManageCities">User Write Here Something</a>
-                                </div>
-                                <div class="wish">
-                                    <a href="AdminManageCities"><i class="bi bi-suit-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="single-inner">
-                                <div class="author-info">
-                                    <div class="author-thumb">
-                                        <img src="assets/images/services/service-author-2.png" alt="">
-                                    </div>
-                                    <div class="author-content">
-                                        <span>User </span>
-                                        <div class="ratting">
-                                            <ul class="stars">
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
-                                            <strong>(5/5)</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 2 -->
-                    <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                        <div class="single-service layout-2 layout-3">
-                            <div class="thumb">
-                                <a href="ManageServices"><img src="assets/images/services/service-2.jpg" alt=""></a>
-                                <div class="tag">
-                                    <a href="ManageServices">User</a>
-                                </div>
-                                <div class="wish">
-                                    <a href="ManageServices"><i class="bi bi-suit-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="single-inner">
-                                <div class="author-info">
-                                    <div class="author-thumb">
-                                        <img src="assets/images/services/service-author-2.png" alt="">
-                                    </div>
-                                    <div class="author-content">
-                                        <span>User</span>
-                                        <div class="ratting">
-                                            <ul class="stars">
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
-                                            <strong>(5/5)</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                        <div class="single-service layout-2 layout-3">
-                            <div class="thumb">
-                                <a href="AdminManageVendors"><img src="assets/images/services/service-2.jpg" alt=""></a>
-                                <div class="tag">
-                                    <a href="AdminManageVendors">User</a>
-                                </div>
-                                <div class="wish">
-                                    <a href="AdminManageVendors"><i class="bi bi-suit-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="single-inner">
-                                <div class="author-info">
-                                    <div class="author-thumb">
-                                        <img src="assets/images/services/service-author-2.png" alt="">
-                                    </div>
-                                    <div class="author-content">
-                                        <span>User</span>
-                                        <div class="ratting">
-                                            <ul class="stars">
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
-                                            <strong>(5/5)</strong>
-                                        </div>
-                                    </div>
-                                </div>                                               
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-<!--        </section>-->
+        <!--        <section id="down" class="login-area sec-p">-->
+        <br>
+        <br>
+        <br>
+         <div class="blinking-text">
+            <h2 >Cities</h2>
+        </div>
+        <div id="cityCards" style="width:90%; margin:auto; margin-top:20px;">
+            <!-- City cards will load here -->
+        </div>
+        <!--        </section>-->
 
         <!-- End login-area section -->
 

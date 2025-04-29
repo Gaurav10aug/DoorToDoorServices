@@ -129,128 +129,249 @@
         </style>
 
 
-        <script>
-//            fetch('/AdminGetAllVendors')
-//                    .then(res => res.text())   // ✅ treat response as raw HTML
-//                    .then(data => {
-//                        const container = document.getElementById('vendorContainer');
-//                        container.innerHTML = '';
-//                        data.forEach(vendor => {
-//                            const card = document.createElement('div');
-//                            card.className = 'card';
-//                            card.innerHTML = `
-//                         <img src="data:image/jpeg;base64,${vendor.photo}" alt="Photo" />
-//                         <h3>${vendor.name}</h3>
-//                         <p>Price: ₹${vendor.price}</p>
-//                         <p>Service: ${vendor.service}</p>
-//                         <p>Subservice: ${vendor.subService}</p>
-//                         <p>City: ${vendor.city}</p>
-//                         <button onclick="toggleVendor('${vendor.email}', '${vendor.status}')">
-//                             ${vendor.status === 'Block' ? 'Accept' : 'Block'}
-//                         </button>
-//                     `;
-//                            container.appendChild(card);
-//                        });
-//                    });
-//
-//            function toggleVendor(email, status) {
-//                const endpoint = status === 'Block' ? '/vendors/accept' : '/vendors/block';
-//                fetch(endpoint, {
-//                    method: 'POST',
-//                    headers: {'Content-Type': 'application/json'},
-//                    body: JSON.stringify({email})
-//                }).then(() => location.reload());
-//            }
-
-
-            fetch('/AdminGetAllVendors')
-                    .then(res => res.text())   // still treating it as HTML
-                    .then(data => {
-                        const container = document.getElementById('vendorContainer');
-                        container.innerHTML = data; // Just put the HTML table
-                    });
-
-            function toggleVendor(v_id, v_status) {
-                fetch('/ToggleVendorStatus', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({v_id})
-                }).then(() => location.reload());
-            }
-
-
-//            function acceptVendor(v_id) {
-//                fetch(`/AcceptVendor?v_id=${v_id}`)
-//                        .then(() => location.reload());
-//            }
-
-            function blockVendor(vendorId, button) {
-                fetch(`/vendor/block/${vendorId}`, {
-                    method: 'DELETE'
-                })
-                        .then(response => {
-                            if (response.ok) {
-                                // Successfully deleted in database
-                                button.innerText = 'Accept';
-                                button.classList.remove('block');
-                                button.classList.add('accept');
-                                button.setAttribute('onclick', `acceptVendor(${vendorId}, this)`);
-                            } else {
-                                alert('Failed to block vendor.');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-            }
-
-            function acceptVendor(vendorId, button) {
-                fetch(`/vendor/accept/${vendorId}`, {
-                    method: 'POST'
-                })
-                        .then(response => {
-                            if (response.ok) {
-                                // Successfully added in database
-                                button.innerText = 'Block';
-                                button.classList.remove('accept');
-                                button.classList.add('block');
-                                button.setAttribute('onclick', `blockVendor(${vendorId}, this)`);
-                            } else {
-                                alert('Failed to accept vendor.');
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
-            }
-
-//            function deleteVendor(v_id) {
-//                fetch(`/DeleteVendor?v_id=${v_id}`)
-//                        .then(() => location.reload());
-//            }
-
-            function toggleVendor(v_id, v_status) {
-                fetch('/ToggleVendorStatus', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({v_id})
-                }).then(() => location.reload());
-            }
-
-            function toggleVendor(v_id, v_status) {
-                if (v_status !== 'Block') {
-                    if (!confirm("Are you sure you want to block and delete this vendor?")) {
-                        return; // stop if admin cancels
+        <!--        <script>
+        //            fetch('/AdminGetAllVendors')
+        //                    .then(res => res.text())   // ✅ treat response as raw HTML
+        //                    .then(data => {
+        //                        const container = document.getElementById('vendorContainer');
+        //                        container.innerHTML = '';
+        //                        data.forEach(vendor => {
+        //                            const card = document.createElement('div');
+        //                            card.className = 'card';
+        //                            card.innerHTML = `
+        //                         <img src="data:image/jpeg;base64,${vendor.photo}" alt="Photo" />
+        //                         <h3>${vendor.name}</h3>
+        //                         <p>Price: ₹${vendor.price}</p>
+        //                         <p>Service: ${vendor.service}</p>
+        //                         <p>Subservice: ${vendor.subService}</p>
+        //                         <p>City: ${vendor.city}</p>
+        //                         <button onclick="toggleVendor('${vendor.email}', '${vendor.status}')">
+        //                             ${vendor.status === 'Block' ? 'Accept' : 'Block'}
+        //                         </button>
+        //                     `;
+        //                            container.appendChild(card);
+        //                        });
+        //                    });
+        //
+        //            function toggleVendor(email, status) {
+        //                const endpoint = status === 'Block' ? '/vendors/accept' : '/vendors/block';
+        //                fetch(endpoint, {
+        //                    method: 'POST',
+        //                    headers: {'Content-Type': 'application/json'},
+        //                    body: JSON.stringify({email})
+        //                }).then(() => location.reload());
+        //            }
+        
+        
+                    fetch('/AdminGetAllVendors')
+                            .then(res => res.text())   // still treating it as HTML
+                            .then(data => {
+                                const container = document.getElementById('vendorContainer');
+                                container.innerHTML = data; // Just put the HTML table
+                            });
+        
+                    function toggleVendor(v_id, v_status) {
+                        fetch('/ToggleVendorStatus', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({v_id})
+                        }).then(() => location.reload());
                     }
+        
+        
+        //            function acceptVendor(v_id) {
+        //                fetch(`/AcceptVendor?v_id=${v_id}`)
+        //                        .then(() => location.reload());
+        //            }
+        
+                    function blockVendor(vendorId, button) {
+                        fetch(`/vendor/block/${vendorId}`, {
+                            method: 'DELETE'
+                        })
+                                .then(response => {
+                                    if (response.ok) {
+                                        // Successfully deleted in database
+                                        button.innerText = 'Accept';
+                                        button.classList.remove('block');
+                                        button.classList.add('accept');
+                                        button.setAttribute('onclick', `acceptVendor(${vendorId}, this)`);
+                                    } else {
+                                        alert('Failed to block vendor.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                    }
+        
+                    function acceptVendor(vendorId, button) {
+                        fetch(`/vendor/accept/${vendorId}`, {
+                            method: 'POST'
+                        })
+                                .then(response => {
+                                    if (response.ok) {
+                                        // Successfully added in database
+                                        button.innerText = 'Block';
+                                        button.classList.remove('accept');
+                                        button.classList.add('block');
+                                        button.setAttribute('onclick', `blockVendor(${vendorId}, this)`);
+                                    } else {
+                                        alert('Failed to accept vendor.');
+                                    }
+                                })
+                                .catch(error => console.error('Error:', error));
+                    }
+        
+        //            function deleteVendor(v_id) {
+        //                fetch(`/DeleteVendor?v_id=${v_id}`)
+        //                        .then(() => location.reload());
+        //            }
+        
+                    function toggleVendor(v_id, v_status) {
+                        fetch('/ToggleVendorStatus', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({v_id})
+                        }).then(() => location.reload());
+                    }
+        
+                    function toggleVendor(v_id, v_status) {
+                        if (v_status !== 'Block') {
+                            if (!confirm("Are you sure you want to block and delete this vendor?")) {
+                                return; // stop if admin cancels
+                            }
+                        }
+        
+                        fetch('/ToggleVendorStatus', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({v_id})
+                        }).then(() => location.reload());
+                    }
+        
+        
+                </script>-->
+
+        <script>
+            function loadServiceProviders() {
+                fetch("/AdminShowVendors", {
+                    method: "POST"
+                })
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml(ans));
+            }
+            function renderAsHtml(ans) {
+                console.log(ans);
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+
+                var s = ``;
+
+                // Header row
+                s += `<div class="row font-weight-bold mb-3" 
+                       style="background-color:#f7f9fc; padding:15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                                <div class="col-1">Name</div>
+                                <div class="col-2">Email</div>
+                                <div class="col-1">City</div>
+                                <div class="col-1">Service</div>
+                                <div class="col-2">Subservice</div>
+                                <div class="col-1">Price</div>
+                                <div class="col-2">Contact</div>
+                                <div class="col-1">Status</div>
+                                <div class="col-1">Action</div>
+                        </div>`;
+
+                for (var i = 0; i < arr.length; i++) {
+                    var obj = arr[i];
+                    console.log(obj.status);
+                    s += `<div class="row align-items-center mb-3 p-3" 
+         style="background:white; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); transition:0.3s;">
+
+        <div class="col-1">${obj.v_name}</div>
+        <div class="col-2">${obj.v_email}</div>
+        <div class="col-1">${obj.v_city}</div>
+        <div class="col-1">${obj.v_service}</div>
+        <div class="col-2">${obj.v_subservice}</div>
+        <div class="col-1">${obj.v_price}</div>
+        <div class="col-2">${obj.v_contact}</div>
+        <div class="col-1">${obj.v_status}</div>
+        <div class="col-1">
+            ${
+                            obj.v_status === "blocked"
+                            ? `<button class="btn btn-success btn-sm toggle-btn" 
+                        style="border-radius:20px; padding:4px 12px; font-size:12px;" 
+                        onclick="approveVendor(${obj.v_id})">Approve</button>`
+                            : `<button class="btn btn-danger btn-sm toggle-btn" 
+                        style="border-radius:20px; padding:4px 12px; font-size:12px;" 
+                        onclick="blockedVendor(${obj.v_id})">Blocked</button>`
+                            }
+        </div>
+
+    </div>`;
                 }
 
-                fetch('/ToggleVendorStatus', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({v_id})
-                }).then(() => location.reload());
+                document.getElementById("dl").innerHTML = s;
             }
 
+            function approveVendor(v_id) {
+                var formdata = new FormData();
+                formdata.append("vid", v_id);
 
+                fetch("/approveVendors", {
+                    method: "POST",
+                    body: formdata
+                })
+                        .then(response => response.text())
+                        .then(ans => renderAfterApprove(ans));  // separate function
+
+                console.log(v_id);
+            }
+
+            function blockedVendor(v_id) {
+                var formdata = new FormData();
+                formdata.append("vid", v_id);
+
+                fetch("/blockVendors", {
+                    method: "POST",
+                    body: formdata
+                })
+                        .then(response => response.text())
+                        .then(ans => renderAfterBlock(ans));  // separate function
+
+                console.log(v_id);
+            }
+
+            // ------- SEPARATE HTML HANDLING FUNCTIONS ---------
+
+            function renderAfterApprove(ans) {
+                console.log(ans);
+                if (ans.trim() === "success") {
+                    alert("Vendor approved successfully!");
+                    fetchVendors();  // reload vendors list
+                } else {
+                    alert("Something went wrong: " + ans);
+                }
+            }
+
+            function renderAfterBlock(ans) {
+                console.log(ans);
+                if (ans.trim() === "success") {
+                    alert("Vendor blocked successfully!");
+                    fetchVendors();  // reload vendors list
+                } else {
+                    alert("Something went wrong: " + ans);
+                }
+            }
+            function fetchVendors() {
+                fetch("/AdminManageServiceProviders", {
+                    method: "POST"
+                })
+                        .then(response => response.text())
+                        .then(ans => {
+                            renderAsHtml(ans);  // your table rendering function
+                        });
+            }
         </script>
     </head>
-    <body>
+    <body onload="loadServiceProviders()">
 
         <!--Start preloader area -->
         <div class="egns-preloader">
@@ -384,8 +505,8 @@
 
         <!-- End cards-area section -->
 
-        <h2 style="text-align:center"> Vendors List</h2>
-        <div id="vendorContainer"></div>
+        <h2 style="text-align:center"> Vendors Table</h2>
+        <div id="dl"></div>
         <br>
         <br>
         <!-- Start footer section -->
@@ -511,14 +632,14 @@
         <!-- Custom JS -->
         <script src="assets/js/custom.js"></script>
 
-        <script>
+        <!--        <script>
             fetch('/AdminGetAllVendors')
                     .then(res => res.text())
                     .then(data => {
                         const container = document.getElementById('vendorContainer');
                         container.innerHTML = data; // ✅ directly insert the HTML
                     });
-        </script>
+                </script>-->
 
     </body>
 

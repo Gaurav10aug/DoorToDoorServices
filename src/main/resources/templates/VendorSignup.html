@@ -34,34 +34,23 @@
         <!-- Title -->
 
         <style>
-            @media (max-width: 768px) {
-                .form-content {
-                    padding: 25px 20px;
-                }
+            .signup-section {
+                background: linear-gradient(to right, #e0eafc, #cfdef3);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
             }
-
-            label {
-                font-weight: 500;
+            .signup-card {
+                background: white;
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease-in-out;
             }
-
-            input.form-control,
-            select.form-select {
-                border-radius: 8px;
-                padding: 10px;
-                font-size: 15px;
+            .signup-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
             }
-
-            input:focus, select:focus {
-                border-color: #007bff;
-                box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
-            }
-
-            button.btn {
-                font-weight: bold;
-                font-size: 16px;
-                border-radius: 10px;
-            }
-
         </style>
 
         <script>
@@ -100,7 +89,7 @@
 
 
             function renderHTML2(ans)
-            {               
+            {
 //                console.log("Raw Response :", ans);
                 var mainobj = JSON.parse(ans);
                 var arr = mainobj["ans"];
@@ -117,7 +106,7 @@
                 document.getElementById("services").innerHTML = s;
             }
 
-            function SignUp() {               
+            function SignUp() {
                 var vname = document.getElementById("name").value;
                 var vemail = document.getElementById("email").value;
                 var vcity = document.querySelector("#city select").value;
@@ -305,229 +294,231 @@
                 </div>
             </div>
 
-            <form id="vendorForm" enctype="multipart/form-data" method="post">
+            <div class="signup-section my-5">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
 
-                <div class="row g-4">
-                    <!-- Name -->
-                    <div class="col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
-                    </div>
+                        <!-- Left side image -->
+                        <div class="col-md-6 d-none d-md-block">
+                            <img src="/myUploads/VendormyUploads/vsu.jpeg" alt="Sign Up" style="height:1200px;width:1000px" class="img-fluid rounded-3 shadow-lg">
+                        </div>
 
-                    <!-- Email -->
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="text" class="form-control" id="email" placeholder="Enter your Email">
-                    </div>
+                        <!-- Right side form -->
+                        <div class="col-md-6">
+                            <div class="card signup-card shadow-lg p-5">
+                                <h2 class="text-center mb-4">Vendor Sign Up</h2>
 
-                    <!-- Services -->
-                    <label for="service" class="form-label">Select City</label>
-                    <div class="col-md-6" id="city">
+                                <form id="vendorForm" enctype="multipart/form-data" method="post">
+                                    <!-- STACKED form fields here (same as before) -->
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                                    </div>
 
-                        <select  name="service" class="form-control">
-                        </select>
-                    </div>
-                    <!-- Password -->
-                    <div class="col-md-6">
-                        <label for="pass" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="pass" placeholder="Enter Password">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email Address</label>
+                                        <input type="text" class="form-control" id="email" placeholder="Enter your Email">
+                                    </div>
 
-                    <!-- Services -->
-                    <label for="service" class="form-label">Select Service</label>
-                    <div class="col-md-6" id="services">
+                                    <div class="mb-3" id="city">
+                                        <label for="city" class="form-label">Select City</label>
+                                        <select name="city" class="form-control" >
+                                        </select>
+                                    </div>
 
-                        <select  name="service" class="form-control">
-                        </select>
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="pass" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="pass" placeholder="Enter Password">
+                                    </div>
 
-                    <!-- Sub-Service -->
-                    <div class="col-md-6">
-                        <label for="subser" class="form-label">Sub-service</label>
-                        <input type="text" class="form-control" id="subser" placeholder="Enter sub-service">
-                    </div>
+                                    <div class="mb-3" id="services">
+                                        <label for="services" class="form-label">Select Service</label>
+                                        <select name="service" class="form-control">
+                                        </select>
+                                    </div>
 
-                    <!-- Start Time -->
-                    <div class="col-md-6">
-                        <label for="stim" class="form-label">Start-Time</label>
-                        <input type="text" class="form-control" id="stim">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="subser" class="form-label">Sub-service</label>
+                                        <input type="text" class="form-control" id="subser" placeholder="Enter sub-service">
+                                    </div>
 
-                    <!-- End Time -->
-                    <div class="col-md-6">
-                        <label for="etim" class="form-label">Ending-Time</label>
-                        <input type="text" class="form-control" id="etim">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="stim" class="form-label">Start Time</label>
+                                        <input type="text" class="form-control" id="stim">
+                                    </div>
 
-                    <!-- Price -->
-                    <div class="col-md-6">
-                        <label for="rate" class="form-label">Price</label>
-                        <input type="text" class="form-control" id="rate" placeholder="Enter your service rates">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="etim" class="form-label">End Time</label>
+                                        <input type="text" class="form-control" id="etim">
+                                    </div>
 
-                    <!-- Contact -->
-                    <div class="col-md-6">
-                        <label for="phnum" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="phnum" placeholder="Enter your Mobile Number">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="rate" class="form-label">Price</label>
+                                        <input type="text" class="form-control" id="rate" placeholder="Enter your service rates">
+                                    </div>
 
-                    <!-- Photo -->
-                    <div class="col-md-6">
-                        <label for="photo" class="form-label">Upload Photo</label>
-                        <input type="file" accept="image/*" class="form-control" id="photo">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="phnum" class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" id="phnum" placeholder="Enter your Mobile Number">
+                                    </div>
 
-                    <!-- Description -->
-                    <div class="col-md-6">
-                        <label for="desc" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="desc" placeholder="Tell something about yourself">
-                    </div>
+                                    <div class="mb-3">
+                                        <label for="photo" class="form-label">Upload Photo</label>
+                                        <input type="file" accept="image/*" class="form-control" id="photo">
+                                    </div>
 
-                    <!-- Status (Read-Only) -->
-                    <div class="col-md-6">
-                        <label for="stat" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="stat" value="Blocked" readonly>
+                                    <div class="mb-3">
+                                        <label for="desc" class="form-label">Description</label>
+                                        <input type="text" class="form-control" id="desc" placeholder="Tell something about yourself">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="stat" class="form-label">Status</label>
+                                        <input type="text" class="form-control" id="stat" value="Blocked" readonly>
+                                    </div>
+
+                                    <div class="d-grid gap-2 mt-4">
+                                        <button type="button" class="btn btn-primary" onclick="SignUp()">Sign Up</button>
+                                    </div>
+
+                                    <p class="mt-3 text-center">Already have an account? <a href="VendorLogin">Login</a></p>
+                                </form>
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
-                <div class="mt-4">
-                    <button type="button" class="btn btn-primary w-100" onclick="SignUp()">Sign Up</button>
-                </div>
-
-                <p class="mt-3 text-center">Already have an account? <a href="#">Login</a></p>
-            </form>
+            </div>
 
         </div>
-    </div>
-    <!-- End login-area section -->
 
-    <!-- Start footer section -->
-    <footer class="footer-2">
-        <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
-        <div class="container">
-            <div class="footer-top">
-                <div class="row gy-5">
-                    <div class="col-md-6 col-lg-5">
-                        <div class="footer-widget with-logo">
-                            <div class="footer-logo">
-                                <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+        <!-- End login-area section -->
+
+        <!-- Start footer section -->
+        <footer class="footer-2">
+            <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="row gy-5">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="footer-widget with-logo">
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                                </div>
+                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
+                                <div class="request-btn">
+                                    <a href="contact.html">Request a Service</a>
+                                </div>
                             </div>
-                            <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
-                            <div class="request-btn">
-                                <a href="contact.html">Request a Service</a>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Explore On</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="blog.html">Blog Grid</a></li>
+                                    <li><a href="#">Help & Support</a></li>
+                                    <li><a href="service-details.html">Services Details</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms of use</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Categories</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="service.html">Electronics</a></li>
+                                    <li><a href="service.html">Driver Service</a></li>
+                                    <li><a href="service.html">Electric & Plumbing</a></li>
+                                    <li><a href="service.html">Gadgets Repair</a></li>
+                                    <li><a href="service.html">Security Service</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="footer-widget">
+                                <h4>Contacts</h4>
+                                <div class="information">
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111555">+880 176 1111 555</a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="far fa-envelope"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-2">
-                        <div class="footer-widget">
-                            <h4>Explore On</h4>
-                            <ul class="footer-menu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="blog.html">Blog Grid</a></li>
-                                <li><a href="#">Help & Support</a></li>
-                                <li><a href="service-details.html">Services Details</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of use</a></li>
-                            </ul>
+                </div>
+
+
+                <div class="footer-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copy-right">
+                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-2">
-                        <div class="footer-widget">
-                            <h4>Categories</h4>
-                            <ul class="footer-menu">
-                                <li><a href="service.html">Electronics</a></li>
-                                <li><a href="service.html">Driver Service</a></li>
-                                <li><a href="service.html">Electric & Plumbing</a></li>
-                                <li><a href="service.html">Gadgets Repair</a></li>
-                                <li><a href="service.html">Security Service</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="footer-widget">
-                            <h4>Contacts</h4>
-                            <div class="information">
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </div>
-                                    <div class="desc">
-                                        <a href="tel:01761111456">+880 176 1111 456</a>
-                                        <a href="tel:01761111555">+880 176 1111 555</a>
-                                    </div>
-                                </div>
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="far fa-envelope"></i>
-                                    </div>
-                                    <div class="desc">
-                                        <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
-                                        <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
-                                    </div>
-                                </div>
-                                <div class="info">
-                                    <div class="icon">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="desc">
-                                        <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
-                                    </div>
-                                </div>
+                        <div class="col-lg-6">
+                            <div class="footer-social-media">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </footer>
+        <!-- End footer section -->
 
+        <!--  Main jQuery  -->
+        <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
+        <!-- Popper and Bootstrap JS -->
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <!-- Swiper slider JS -->
+        <script src="assets/js/swiper-bundle.min.js"></script>
+        <!-- Slick slider JS -->
+        <script src="assets/js/slick.js"></script>
+        <!-- Nice select JS -->
+        <script src="assets/js/jquery.nice-select.min.js"></script>
+        <!-- Waypoints JS -->
+        <script src="assets/js/waypoints.min.js"></script>
+        <!-- Counterup JS -->
+        <script src="assets/js/jquery.counterup.min.js"></script>
+        <!-- Magnific-popup  JS -->
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!-- Wow JS -->
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/anime.min.js"></script>
+        <!-- Custom JS -->
+        <script src="assets/js/custom.js"></script>
 
-            <div class="footer-bottom">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <div class="copy-right">
-                            <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="footer-social-media">
-                            <ul>
-                                <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
-                                <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer section -->
-
-    <!--  Main jQuery  -->
-    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
-    <!-- Popper and Bootstrap JS -->
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <!-- Swiper slider JS -->
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <!-- Slick slider JS -->
-    <script src="assets/js/slick.js"></script>
-    <!-- Nice select JS -->
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <!-- Waypoints JS -->
-    <script src="assets/js/waypoints.min.js"></script>
-    <!-- Counterup JS -->
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <!-- Magnific-popup  JS -->
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <!-- Wow JS -->
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/anime.min.js"></script>
-    <!-- Custom JS -->
-    <script src="assets/js/custom.js"></script>
-
-</body>
-
-
-<!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:22:09 GMT -->
+    </body>
 </html>

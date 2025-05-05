@@ -759,7 +759,7 @@ video {
 .breadcrumbs {
   position: relative;
   min-height: 450px;
-  background-image: url(../images/login.jpeg);
+  background-image: url(../images/home3/hero-section-three.png);
   background-size: cover;
   background-position: center center;
   z-index: 1;
@@ -796,7 +796,7 @@ video {
 .breadcrumbsssss {
   position: relative;
   min-height: 450px;
-  background-image: url(../images/vendorsignup.jpeg);
+  background-image: url(../images/home3/hero-section-three.png);
   background-size: cover;
   background-position: center center;
   z-index: 1;

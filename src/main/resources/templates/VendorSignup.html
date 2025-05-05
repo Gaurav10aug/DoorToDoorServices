@@ -55,109 +55,109 @@
 
         <script>
             function getCities() {
-                fetch("/getCities")
-                        .then(response => response.text())
-                        .then(ans => renderHTML(ans))
-                        .catch(error => console.error("Fetch error:", error));
+            fetch("/getCities")
+            .then(response => response.text())
+            .then(ans => renderHTML(ans))
+            .catch(error => console.error("Fetch error:", error));
             }
 
 
             function renderHTML(ans)
             {
-//                console.log("Raw Response :", ans);
-                var mainobj = JSON.parse(ans);
-                var arr = mainobj["ans"];
-                var s = `   <select  name="city" class="form-control">
-                        `;
-                for (var i = 0; i < arr.length; i++)
-                {
-                    var subobj = arr[i];
-                    s = s + `<option value="${subobj.city_id}">${subobj.city_name}</option>`;
+            //                console.log("Raw Response :", ans);
+            var mainobj = JSON.parse(ans);
+            var arr = mainobj["ans"];
+            var s = `   <select  name="city" class="form-control">
+            `;
+            for (var i = 0; i < arr.length; i++)
+            {
+            var subobj = arr[i];
+            s = s + `<option value="${subobj.city_id}">${subobj.city_name}</option>`;
 
-                }
-                s += `</select>`;
+            }
+            s += `</select>`;
 
-                document.getElementById("city").innerHTML = s;
+            document.getElementById("city").innerHTML = s;
             }
 
             function getServices() {
-                fetch("/getServices")
-                        .then(response => response.text())
-                        .then(ans => renderHTML2(ans))
-                        .catch(error => console.error("Fetch error:", error));
+            fetch("/getServices")
+            .then(response => response.text())
+            .then(ans => renderHTML2(ans))
+            .catch(error => console.error("Fetch error:", error));
             }
 
 
             function renderHTML2(ans)
             {
-//                console.log("Raw Response :", ans);
-                var mainobj = JSON.parse(ans);
-                var arr = mainobj["ans"];
-                var s = `   <select  name="service" class="form-control">
-                        `;
-                for (var i = 0; i < arr.length; i++)
-                {
-                    var subobj = arr[i];
-                    s = s + `<option value="${subobj.service_id}">${subobj.service_name}</option>`;
+            //                console.log("Raw Response :", ans);
+            var mainobj = JSON.parse(ans);
+            var arr = mainobj["ans"];
+            var s = `   <select  name="service" class="form-control">
+            `;
+            for (var i = 0; i < arr.length; i++)
+            {
+            var subobj = arr[i];
+            s = s + `<option value="${subobj.service_id}">${subobj.service_name}</option>`;
 
-                }
-                s += `</select>`;
+            }
+            s += `</select>`;
 
-                document.getElementById("services").innerHTML = s;
+            document.getElementById("services").innerHTML = s;
             }
 
             function SignUp() {
-                var vname = document.getElementById("name").value;
-                var vemail = document.getElementById("email").value;
-                var vcity = document.querySelector("#city select").value;
-                var vpassword = document.getElementById("pass").value;
-                var vservices = document.querySelector("#services select").value; // service dropdown
-                var vsubservice = document.getElementById("subser").value;
-                var vstarttime = document.getElementById("stim").value;
-                var vendtime = document.getElementById("etim").value;
-                var vprice = document.getElementById("rate").value;
-                var vcontact = document.getElementById("phnum").value;
-                var vphoto = document.getElementById("photo").files[0];
-                var vdescription = document.getElementById("desc").value;
+            var vname = document.getElementById("name").value;
+            var vemail = document.getElementById("email").value;
+            var vcity = document.querySelector("#city select").value;
+            var vpassword = document.getElementById("pass").value;
+            var vservices = document.querySelector("#services select").value; // service dropdown
+            var vsubservice = document.getElementById("subser").value;
+            var vstarttime = document.getElementById("stim").value;
+            var vendtime = document.getElementById("etim").value;
+            var vprice = document.getElementById("rate").value;
+            var vcontact = document.getElementById("phnum").value;
+            var vphoto = document.getElementById("photo").files[0];
+            var vdescription = document.getElementById("desc").value;
 
-                console.log(vname, vemail, vcity, vpassword, vservices, vsubservice, vstarttime, vendtime, vprice, vcontact, vphoto, vdescription);
+            console.log(vname, vemail, vcity, vpassword, vservices, vsubservice, vstarttime, vendtime, vprice, vcontact, vphoto, vdescription);
 
-                var formdata = new FormData();
-                formdata.append("vename", vname);
-                formdata.append("veemail", vemail);
-                formdata.append("vecity", vcity);
-                formdata.append("vepass", vpassword);
-                formdata.append("veservices", vservices);
-                formdata.append("vesuser", vsubservice);
-                formdata.append("vestart", vstarttime);
-                formdata.append("veend", vendtime);
-                formdata.append("veprice", vprice);
-                formdata.append("vecontact", vcontact);
-                formdata.append("vephoto", vphoto);
-                formdata.append("vedesc", vdescription);
+            var formdata = new FormData();
+            formdata.append("vename", vname);
+            formdata.append("veemail", vemail);
+            formdata.append("vecity", vcity);
+            formdata.append("vepass", vpassword);
+            formdata.append("veservices", vservices);
+            formdata.append("vesuser", vsubservice);
+            formdata.append("vestart", vstarttime);
+            formdata.append("veend", vendtime);
+            formdata.append("veprice", vprice);
+            formdata.append("vecontact", vcontact);
+            formdata.append("vephoto", vphoto);
+            formdata.append("vedesc", vdescription);
 
-                fetch("/VendorSignUp", {
-                    method: "POST",
-                    body: formdata
-                })
-                        .then(response => response.text())
-                        .then(ans => renderHTML3(ans))
-                        .catch(error => console.error("Error:", error));
+            fetch("/VendorSignUp", {
+            method: "POST",
+            body: formdata
+            })
+            .then(response => response.text())
+            .then(ans => renderHTML3(ans))
+            .catch(error => console.error("Error:", error));
             }
             function renderHTML3(ans) {
-                if (ans.trim() === "Vendor Registered Successfully!") {
-                    alert("Vendor added successfully!");
-                    document.getElementById("VendorSignupp").reset();
-                } else {
-                    alert(ans);
-                }
+            if (ans.trim() === "Vendor Registered Successfully!") {
+            alert("Sign-Up Successfully!");
+            document.getElementById("VendorSignupp").reset();
+            } else {
+            alert(ans);
+            }
             }
 
         </script>
 
     </head>
     <body onload="getCities(),
-                    getServices()">
+          getServices()">
 
 
         <!--Start preloader area -->
@@ -183,25 +183,19 @@
         <!-- Start header section -->
         <header class="header-2 sticky_top">
             <div class="header-logo">
-                <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                <a href="/VendorSignup"><img src="assets/images/home2/logo.svg" alt=""></a>
             </div>
             <div class="main-menu">
                 <nav class="main-nav">
                     <div class="mobile-menu-logo">
-                        <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                        <a href="/VendorSignup"><img src="assets/images/home2/logo.svg" alt=""></a>
                         <div class="remove">
                             <i class="bi bi-plus-lg"></i>
                         </div>
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
-                            </ul>
+                            <a href="/VendorSignup">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -217,8 +211,6 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
                                 <li><a href="blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
@@ -226,11 +218,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
-                                <li><a href="account.html">My Account</a></li>
+                                <li><a href="/VendorLogin">Vendor Login</a></li>
+                                <li><a href="/VendorSignup">Vendor Sign Up</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -274,7 +263,7 @@
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
                             <h2>Vendor Sign-Up</h2>
-                            <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i></span>
+                            <span><a href="/VendorSignup">Home</a><i class="bi bi-chevron-right"></i></span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -290,7 +279,7 @@
         <div class="mx-auto bg-white p-5 rounded-4 shadow" style="max-width: 1300px;">
             <div class="row">
                 <div class="col-lg-12 text-center mb-4">
-                    <h2 class="fw-bold bg-info text-primary">Vendor Create Account</h2>
+                    <h2 class="fw-bold text-primary">Vendor Create Account</h2>
                 </div>
             </div>
 
@@ -300,7 +289,7 @@
 
                         <!-- Left side image -->
                         <div class="col-md-6 d-none d-md-block">
-                            <img src="/myUploads/VendormyUploads/vsu.jpeg" alt="Sign Up" style="height:1200px;width:1000px" class="img-fluid rounded-3 shadow-lg">
+                            <img src="/myUploads/VendormyUploads/doorstepservices logo.png" alt="Sign Up" style="height:1200px;width:1000px" class="img-fluid rounded-3 shadow-lg">
                         </div>
 
                         <!-- Right side form -->
@@ -381,8 +370,16 @@
                                         <button type="button" class="btn btn-primary" onclick="SignUp()">Sign Up</button>
                                     </div>
 
-                                    <p class="mt-3 text-center">Already have an account? <a href="VendorLogin">Login</a></p>
+                                    <p class="mt-3 text-center">Already have an account? <a href="/VendorLogin">Login</a></p>
                                 </form>
+
+                                <div class="other-signup">
+                                    <h4>or Sign up WITH</h4>
+                                    <div class="others-account">
+                                        <a href="https://wwww.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
+                                        <a href="https://wwww.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -406,7 +403,6 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -416,7 +412,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/VendorSignup">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -446,7 +442,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111456">+923 5677 891</a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -464,7 +460,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>

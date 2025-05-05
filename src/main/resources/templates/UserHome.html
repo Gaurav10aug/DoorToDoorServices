@@ -33,40 +33,73 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
         <style>
-            .blinking-text
-            {
-                color: #1e3a8a;
-                background-color: #f0f8ff;
-                font-size: 24px;
-                font-weight: bold;
-                text-align: center;
-                padding: 10px 20px;
-                border-radius: 8px;
-                animation: blink 1s infinite;
+            .city-cards-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+                gap: 20px;
+                max-width: 1200px;
+                margin: 40px auto;
+                padding: 0 20px;
+                justify-items: center; /* Centers items horizontally */
             }
 
-            @keyframes blink
-            {
-                {
-                    opacity: 1;
-                }
-                50%
-                {
-                    opacity: 0;
-                }
+            .city-card {
+                display: block;
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+                text-decoration: none;
+                color: #333;
+                border-radius: 10px;
+                background: #fff;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                transition: transform 0.3s;
+            }
+
+            .city-card:hover {
+                transform: scale(1.05);
+            }
+
+            .city-card img {
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+
+            .city-card h3 {
+                margin: 10px 0;
+                padding: 0 10px;
+                font-size: 18px;
             }
 
         </style>
         <script>
+
             function loadCities() {
-                fetch("/UserGetAllCities")
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById("cityCards").innerHTML = data;
-                        });
+            fetch("/UserGetAllCities")
+            .then(response => response.text())
+            .then(data => {
+            document.getElementById("cityCards").innerHTML = data;
+
+            // Attach click handler to each city card
+            document.querySelectorAll(".city-card").forEach(card => {
+            card.addEventListener("click", () => {
+            let city = card.getAttribute("data-city");
+
+            // Store city in localStorage
+            localStorage.setItem("selectedCity", city);
+
+            // Redirect to the service page (in templates)
+            window.location.href = "/ShowServicesToUsers";
+            });
+            });
+            });
             }
 
             window.onload = loadCities;
+
         </script>
 
     </head>
@@ -108,12 +141,8 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
-                            <i class="bi bi-chevron-down"></i>
+                            <a href="/UserHome">Home</a>
                             <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
                             </ul>
                         </li>
                         <li><a href="about.html">About Us</a></li>
@@ -130,8 +159,6 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
                                 <li><a href="blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
@@ -139,10 +166,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
+                                <li><a href="/UserLogin">User Login</a></li>
+                                <li><a href="/UserSignup">User Sign Up</a></li>
                                 <li><a href="account.html">My Account</a></li>
                             </ul>
                         </li>
@@ -160,7 +185,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+880 170 1111 000</a>
+                        <a href="tel:01701111000">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -180,22 +205,74 @@
         </header>
         <!-- End header section -->
 
-        <!-- Start breadcrumbs section -->
-        <section class="breadcrumbss">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-wrapper">
-                            <h2>User Space</h2>
-                            <span><a href="UserLogin">Home</a><i class="bi bi-chevron-right"></i>User login</span>
-                            <div class="arrow-down">
-                                <a href="#down"><i class="bi bi-chevron-down"></i></a>
+        <section class="hero-area">
+            <div class="container-fluid">
+                <div class="hero-wrapper">
+                    <div class="hero-content wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <span>Welcome Our Service Sale</span>
+                        <h1>Nonstop Services Life Better.</h1>
+                        <p>Skip the hassle—get top-rated services delivered right to your doorstep!"
+                            "Trusted professionals. Transparent pricing. All from the comfort of your home."
+                            "One click, and we bring convenience to your door—fast, easy, and reliable."
+
+                            .</p>
+                        <div class="find-service">
+                            <div class="location-search">
+                                <div class="location-btn">
+                                    <i><img src="assets/images/icons/location.svg" alt=""></i>
+                                    <select class="loc-select">
+                                        <option selected="">Punjab</option>
+                                        <option value="barisal">Delhi</option>
+                                        <option value="khulna">Mumbai</option>
+                                        <option value="Dhaka">Kollkata</option>
+                                        <option value="barisal">Rajasthan</option>
+                                        <option value="khulna">Gujarat</option>
+                                    </select>
+                                </div>
+                                <div class="location-form">
+                                    <form action="#" method="post">
+                                        <input type="text" name="location" placeholder="Find Your Services Here">
+                                        <button type="submit"><i class="bi bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="suggest">
+                                <span>Suggest For You:</span>
+                                <ul class="suggest-list">
+                                    <li><a href="service.html">Beauty & Salon</a></li>
+                                    <li><a href="service.html">Shifting</a></li>
+                                    <li><a href="service.html">AC Repair</a></li>
+                                    <li><a href="service.html">Wall-Painting</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+                    <div class="hero-banner wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <img src="assets/images/home-1/hero-section-right-img.png" alt="" class="banner">
+                    </div>
                 </div>
             </div>
+            <div class="scroll-down">
+                <a href="#category">Scroll Down<span><i class="bi bi-arrow-right"></i></span></a>
+            </div>
         </section>
+
+        <!--         Start breadcrumbs section 
+                <section class="breadcrumbss">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="breadcrumb-wrapper">
+                                    <h2>User Space</h2>
+                                    <span><a href="UserLogin">Home</a><i class="bi bi-chevron-right"></i>User login</span>
+                                    <div class="arrow-down">
+                                        <a href="#down"><i class="bi bi-chevron-down"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>-->
         <!-- End breadcrumbs section -->
 
         <!-- Start login-area section -->
@@ -203,18 +280,283 @@
         <br>
         <br>
         <br>
-         <div class="blinking-text">
-            <h2 >Cities</h2>
+        <div style="text-align:center;color: red">
+            <h2>Check Your City</h2>
         </div>
-        <div id="cityCards" style="width:90%; margin:auto; margin-top:20px;">
-            <!-- City cards will load here -->
+        <div id="cityCards" class="city-cards-container">
+            <!-- Cards will load here -->
         </div>
-        <!--        </section>-->
 
-        <!-- End login-area section -->
+        <section class="features-shop">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sec-title layout-1 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="title-left">
+                                <span>Our Trusted Shop</span>
+                                <h2>Our Feature Shop</h2>
+                            </div>
+                            <div class="title-right">
+                                <strong>Feature Shop</strong>
 
-        <!-- Start footer section -->
-        <footer class="footer-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper shop-slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="single-shop wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-1.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <span>Cleaning</span>
+                                    <h4>Cleaning Store</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+                                </div>
+                                <div class="shop-service-count">
+                                    <span>10 Services</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="single-shop wow animate fadeInDown" data-wow-delay="400ms" data-wow-duration="1500ms">
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-2.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <span>Plumbing</span>
+                                    <h4>Plumbing Store</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+
+                                </div>
+                                <div class="shop-service-count">
+                                    <span>08 Services</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="single-shop wow animate fadeInUp" data-wow-delay="600ms" data-wow-duration="1500ms">
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-3.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <span>Security</span>
+                                    <h4>Security Agency</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+
+                                </div>
+                                <div class="shop-service-count">
+                                    <span>12 Services</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="single-shop wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-4.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <span>Gadget</span>
+                                    <h4>Gadget Repair</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+
+                                </div>
+                                <div class="shop-service-count">
+                                    <span>05 Services</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+        <!-- End features-shop section -->
+
+        <section class="new-shop-here sec-m">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <div class="sec-title layout-2 special">
+                            <div class="title-left">
+                                <h2>new store has joined us</h2>
+                            </div>
+                            <div class="title-right">
+                                <a href="service.html">View All Shop<span><i class="bi bi-arrow-right"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="slick-wrapper wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.2s">
+                        <div id="shop-arrival" class="d-flex justify-content-center">
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-1.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-6.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-7.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-8.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-9.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-10.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-11.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-12.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-1.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-6.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-7.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-8.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-9.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-10.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-11.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-12.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End new-shop-here section -->
+
+        <!-- Footer section Starts -->
+        <footer class="footer-1">
             <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
             <div class="container">
                 <div class="footer-top">
@@ -222,9 +564,8 @@
                         <div class="col-md-6 col-lg-5">
                             <div class="footer-widget with-logo">
                                 <div class="footer-logo">
-                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                                    <!--                                   // <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>-->
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -234,10 +575,11 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="about.html">About us</a></li>
+                                    <li><a href="/UserHome">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="#">Help & Support</a></li>
-                                    <li><a href="service-details.html">Services Details</a></li>
+                                    <li><a href="#">Help & Support</a></li>                         
+                                    <li><a href="#">Services Details</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
                                     <li><a href="#">Terms of use</a></li>
                                 </ul>
@@ -264,7 +606,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111456">+923 5677 891</a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -273,8 +615,8 @@
                                             <i class="far fa-envelope"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#365f58505976534e575b465a531855595b"><span class="__cf_email__" data-cfemail="452c2b232a05203d24283529206b262a28">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#30595e565f70434540405f42441e535f5d"><span class="__cf_email__" data-cfemail="3b52555d547b484e4b4b54494f15585456">[email&#160;protected]</span></a>
                                         </div>
                                     </div>
                                     <div class="info">
@@ -282,7 +624,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01,Amritsar,Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>
@@ -294,7 +636,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                             </div>
                         </div>
                         <div class="col-lg-6">

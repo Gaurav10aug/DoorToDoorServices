@@ -49,101 +49,94 @@
 
         </style>
         <script>
-            function uploadPhoto() {
-                var photo = document.getElementById("photo").files[0];
-                var pdesc = document.getElementById("pdesc").value;
+                        function uploadPhoto() {
+            var photo = document.getElementById("photo").files[0];
+            var pdesc = document.getElementById("pdesc").value;
 
-                if (!photo || !pdesc) {
-                    alert("Both photo and description are required.");
-                    return;
-                }
-
-                var formdata = new FormData();
-                formdata.append("photo", photo);
-                formdata.append("pdesc", pdesc);
-
-                fetch("/VendorManagePhotos", {
-                    method: "POST",
-                    body: formdata
-                })
-                        .then(response => response.text())
-                        .then(ans => {
-                            if (ans.trim() === "success") {
-                                alert("Photo added successfully!");
-                                getPhotos();
-                            } else {
-                                alert("Something went wrong: " + ans);
-                            }
-                        });
+            if (!photo || !pdesc) {
+            alert("Both photo and description are required.");
+            return;
             }
 
+            var formdata = new FormData();
+            formdata.append("photo", photo);
+            formdata.append("pdesc", pdesc);
 
+            fetch("/VendorManagePhotos", {
+            method: "POST",
+            body: formdata
+            })
+            .then(response => response.text())
+            .then(ans => {
+            if (ans.trim() === "success") {
+            alert("Photo added successfully!");
+            getPhotos();
+            } else {
+            alert("Something went wrong: " + ans);
+            }
+            });
+            }
+
+            //GET PHOTOS
             function getPhotos() {
-                fetch("/VendorShowPhotos", {
-                    method: "POST" // FIXED: use POST to match backend
-                })
-                        .then(response => response.text())
-                        .then(text => {
-                            try {
-                                var data = JSON.parse(text);
-                                renderPhotos(data);
-                            } catch (e) {
-                                console.error("Error parsing JSON:", text);
-                                alert("Something went wrong: " + text);
-                            }
-                        })
-                        
+            fetch("/VendorShowPhotos", {method: "POST"})
+            .then(response => response.text())
+            .then(ans => renderAsHtml(ans));
             }
 
-            function renderPhotos(data) {
-                var container = document.getElementById("photoContainer");
-                container.innerHTML = ""; // Clear old content
+            function renderAsHtml(ans) {
+            var mainobj = JSON.parse(ans);
+            var arr = mainobj["ans"];
+            var s = '<div class="container"><div class="row g-4">';
 
-                data.forEach(photoObj => {
-                    var card = `
-<div class="card" style="width: 18rem; margin:10px; display:inline-block;">
-    <img src="/myUploads/VendormyUploads/${photoObj.photo}" class="card-img-top" style="height:200px; object-fit:cover;">
-    <div class="card-body">
-        <p class="card-text">${photoObj.p_desc}</p>
-        <button class="btn btn-danger" onclick="deletePhoto('${photoObj.photo}')">Delete</button>
-    </div>
-</div>`;
-                    container.innerHTML += card;
-                });
+            for (var i = 0; i < arr.length; i++) {
+            var pt = arr[i];
+            var imgPath = "/myUploads/VendormyUploads" + pt.photo;
+            var pdesc = pt.p_desc;
+            var pid = pt.p_id;
+
+            s += `
+            <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0">
+            <img src="${imgPath}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Photo">
+            <div class="card-body text-center">
+            <h5 class="card-title">${pdesc}</h5>
+            <button class="btn btn-danger mt-3" onclick="deletePhoto('${pid}', this)">Delete</button>
+            </div>
+            </div>
+            </div>
+            `;
             }
 
-            function deletePhoto(photoName) {
-                var formData = new FormData();
-                formData.append("photo", photoName);
-
-                fetch("/DeleteVendorPhoto", {
-                    method: "POST",
-                    body: formData
-                })
-                        .then(response => response.text())
-                        .then(ans => {
-                            if (ans.trim() === "success") {
-                                alert("Photo deleted successfully!");
-                                getPhotos(); // Refresh photos
-                            } else {
-                                alert("Failed to delete photo: " + ans);
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                            alert("Error deleting photo");
-                        });
+            s += '</div></div>';
+            document.getElementById("d1").innerHTML = s;
             }
 
-            window.onload = function () {
-                getPhotos(); // Load photos on page load
-            };
+            //DELETE PHOTOS
+            function deletePhoto(p_id) {
+            let formdata = new FormData();
+            formdata.append("pid", p_id);
+
+            fetch("/DeletePhoto", {
+            method: "POST",
+            body: formdata
+            })
+            .then(response => response.text())
+            .then(ans => {
+            if (ans.trim() === "success") {
+            const card = el.closest(".card");
+            card.classList.add("fade-out");
+            setTimeout(() => card.remove(), 500); // Wait for fade animation
+            } else {
+            alert("Delete failed: " + ans);
+            }
+            });
+            }
         </script>
-
 
     </head>
 
-    <body>
+    <body onload="getPhotos()">
 
         <!--Start preloader area -->
         <div class="egns-preloader">
@@ -180,13 +173,7 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
-                            </ul>
+                            <a href="/VendorHome">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -202,8 +189,6 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
                                 <li><a href="blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
@@ -211,11 +196,7 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
-                                <li><a href="account.html">My Account</a></li>
+                                <li><a href="/VendorLogin">Vendor Login</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -232,7 +213,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+880 170 1111 000</a>
+                        <a href="tel:01701111000">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -259,7 +240,7 @@
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
                             <h2>Vendor Manage Photos</h2>
-                            <span><a href="VendorHome">Home</a><i class="bi bi-chevron-right"></i>Vendor login</span>
+                            <span><a href="/VendorHome">Home</a><i class="bi bi-chevron-right"></i>Vendor login</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -270,27 +251,24 @@
         </section>
         <!-- End breadcrumbs section -->
 
-        <!-- Start login-area section -->
         <section id="down" class="login-area sec-p">
             <div class="contact-form">
-
                 <h2>Manage Photos</h2>
-                <form onsubmit="event.preventDefault();
-                        uploadPhoto();">
+                <form onsubmit="event.preventDefault(); uploadPhoto();">
                     <input type="file" id="photo" name="photo">
                     <textarea id="pdesc" placeholder="Vendor Description"></textarea>
                     <input type="button" onclick="uploadPhoto()" value="Add">
                 </form>
-
             </div>
-            <div id="photoContainer" style="padding: 20px;">
-                <!-- Cards will be added here dynamically -->
+            <br>
+            <div id="dl" style="width:90%; margin:auto; margin-top:20px;">
+                <!-- City cards will load here -->
             </div>
-
         </section>
-        <!-- End login-area section -->
 
+        <!-- End login-area section -->
         <br>
+
         <!-- Start footer section -->
         <footer class="footer-2">
             <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
@@ -302,7 +280,6 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -312,7 +289,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/VendorHome">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -342,7 +319,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111456">+923 5677 891/a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -360,7 +337,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>

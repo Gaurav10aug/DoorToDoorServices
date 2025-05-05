@@ -4,12 +4,8 @@ import DoorStepServiceProject.DoorStepServiceProject.vmm.DBLoader;
 import DoorStepServiceProject.DoorStepServiceProject.vmm.RDBMS_TO_JSON;
 import jakarta.servlet.http.HttpSession;
 import java.io.*;
-//import java.io.FileOutputStream;
 import java.sql.ResultSet;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -75,8 +71,8 @@ public class VendorRestController {
             rs.updateString("v_pass", vepass);
             rs.updateInt("v_service", Integer.parseInt(veservices));
             rs.updateString("v_subservice", vesuser);
-            rs.updateString("v_start-time", vestart);
-            rs.updateString("v_end-time", veend);
+            rs.updateString("v_start_time", vestart);
+            rs.updateString("v_end_time", veend);
             rs.updateString("v_price", veprice);
             rs.updateString("v_contact", vecontact);
             rs.updateString("v_photo", orgName);
@@ -122,7 +118,6 @@ public class VendorRestController {
 
                 return "success";
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
             return "exception";
@@ -197,60 +192,59 @@ public class VendorRestController {
         }
     }
 
-    @PostMapping("/VendorShowPhotos")
-    public String showPhotos(HttpSession session) {
+    @GetMapping("/VendorShowPhotos")
+    public String getAllCities() {
+        String ans = "";
         try {
-            Integer vendorId = (Integer) session.getAttribute("vendorId");
-            if (vendorId == null) {
-                return "[]"; // Return empty array if session is invalid
+            ResultSet rs = DBLoader.executeQuery("select * from managephotos");
+            ans += "<div style='display:flex; flex-wrap:wrap; gap:20px;'>";
+            while (rs.next()) {
+               String p_id = rs.getString("p_id");
+                String photo = rs.getString("photo");
+                String photo_desc = rs.getString("p_desc");
+
+                
             }
-
-            RDBMS_TO_JSON rdbms_to_json = new RDBMS_TO_JSON();
-            String json = rdbms_to_json.generateJSON("SELECT * FROM managephotos WHERE v_id=" + vendorId);
-
-            return json; // Return raw JSON array, not wrapped in an object
+            ans += "</div>";
         } catch (Exception e) {
             e.printStackTrace();
-            return "[]"; // Return empty array on error
         }
+        return ans;
     }
-
-    @PostMapping("/DeleteVendorPhoto")
-    public String deleteVendorPhoto(@RequestParam String photo, HttpSession session) {
+    
+    @GetMapping("/DeletePhoto")
+    public String deletePhoto(@RequestParam int p_id) {
         try {
-            Integer v_id = (Integer) session.getAttribute("vendorId");
-            if (v_id == null) {
-                return "error: Please login again.";
+            ResultSet rs = DBLoader.executeQuery("select * from managephotos where p_id=" + p_id);
+            if (rs.next()) {
+                rs.deleteRow();
+                return "success";
+            } else {
+                return "failure";
             }
-            int count = DBLoader.executeUpdate("DELETE FROM managephotos WHERE photo='" + photo + "' AND v_id=" + v_id);
-            return (count > 0) ? "success" : "failed";
         } catch (Exception e) {
             e.printStackTrace();
-            return "error: " + e.getMessage();
+            return "failure";
         }
     }
+           
+    @PostMapping("/getEditData")
+    public String getEditData(HttpSession session) {
+        int v_id = (int) session.getAttribute("vendorId");
 
-//    @GetMapping("/GetVendorDetails")
-//    public String getVendorDetails(HttpSession session) {
-//        try {
-//            Integer vendorId = (Integer) session.getAttribute("v_id");
-//
-//            if (vendorId == null) {
-//                return "Session expired or not logged in";
-//            }
-//
-//            String jsonData = new RDBMS_TO_JSON().generateJSON("SELECT * FROM vendor WHERE v_id=" + vendorId);
-//
-//            return jsonData;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "Error: " + e.getMessage();
-//        }
-//    }
-    @PostMapping("/VendorUpdateDetails")
+        System.out.println("VID");
+        System.out.println(v_id);
+
+        String ans = new RDBMS_TO_JSON().generateJSON("select * from vendor where v_id =" + v_id + " ");
+
+        return ans;
+    }
+    
+@PostMapping("/VendorUpdateDetails")
     public String updateVendor(HttpSession session,
             @RequestParam String vname,
+            @RequestParam String vservice,
+            @RequestParam String vsubservice,
             @RequestParam String vstart,
             @RequestParam String vend,
             @RequestParam String vprice,
@@ -270,8 +264,10 @@ public class VendorRestController {
             if (rs.next()) {
                 // Update vendor data
                 rs.updateString("v_name", vname);
-                rs.updateString("v_start-time", vstart);
-                rs.updateString("v_end-time", vend);
+                rs.updateString("v_service", vservice);
+                rs.updateString("v_subservice", vsubservice);
+                rs.updateString("v_start_time", vstart);
+                rs.updateString("v_end_time", vend);
                 rs.updateString("v_price", vprice);
                 rs.updateString("v_contact", vcontact);
                 rs.updateString("v_desc", vdesc);
@@ -286,5 +282,4 @@ public class VendorRestController {
             return "Error: " + ex.getMessage();
         }
     }
-
 }

@@ -21,4 +21,19 @@ public class UserController {
         return "UserHome";
     }
     
+    @GetMapping("/ShowServicesToUsers")
+    public String showServicesPage() {
+        return "ShowServicesToUsers"; // Thymeleaf will look in templates/ShowServicesToUsers.html
+    }
+    
+     @GetMapping("/ShowServiceProvidersToUsers")
+    public String showServiceProviders() {
+        return "ShowServicesDetails"; // Thymeleaf will look in templates/ShowServicesToUsers.html
+    }
+    
+    @GetMapping("/SingleVendorDetails")
+    public String showVendorDetailsPage() {
+        return "SingleVendorDetails"; // Thymeleaf will look in templates/ShowServicesToUsers.html
+    }
+    
 }

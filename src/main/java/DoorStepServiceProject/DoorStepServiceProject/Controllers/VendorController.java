@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class VendorController {
     
-    @GetMapping("/VendorSignupp")
+    @GetMapping("/VendorSignup")
     public String go5(){
         return "VendorSignup";
     }

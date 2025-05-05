@@ -3,6 +3,7 @@ package DoorStepServiceProject.DoorStepServiceProject.Controllers;
 import DoorStepServiceProject.DoorStepServiceProject.vmm.DBLoader;
 import java.io.File;
 import java.io.FileOutputStream;
+import DoorStepServiceProject.DoorStepServiceProject.vmm.RDBMS_TO_JSON;
 import java.sql.ResultSet;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,28 +83,97 @@ public class UserRestController {
         }
     }
     
-    @GetMapping("/UserGetAllCities")
-    public String getAllCities() {
-        String ans = "";
-        try {
-            ResultSet rs = DBLoader.executeQuery("select * from cities");
-            ans += "<div style='display:flex; flex-wrap:wrap; gap:20px;'>";
-            while (rs.next()) {
-                String city_id = rs.getString("city_id");
-                String city_name = rs.getString("city_name");
-                String city_photo = rs.getString("city_photo");
 
-                ans += "<div style='flex: 0 0 calc(33.33% - 20px); border:1px solid #ccc; border-radius:10px; padding:10px; box-shadow:2px 2px 10px rgba(0,0,0,0.2); text-align:center;'>";
-                ans += "<img src='myUploads" + city_photo + "' style='width:100%; height:200px; object-fit:cover; border-radius:10px;'><br>";
-                ans += "<h3 style='margin:10px 0;'>" + city_name + "</h3>";
-//                ans += "<button onclick='deleteCity(" + city_id + ")' style='background:red; color:white; border:none; padding:10px 20px; margin-top:10px; border-radius:5px;'>Delete</button>";
-                ans += "</div>";
-            }
-            ans += "</div>";
-        } catch (Exception e) {
-            e.printStackTrace();
+@GetMapping("/UserGetAllCities")
+public String getAllCities() {
+    String ans = "";
+    try {
+        ResultSet rs = DBLoader.executeQuery("select * from cities");
+        while (rs.next()) {
+            String city_id = rs.getString("city_id");
+            String city_name = rs.getString("city_name");
+            String city_photo = rs.getString("city_photo");
+
+            ans += "<a href='ShowServicesToUsers?id=" + city_id + "' class='city-card'>";
+            ans += "<img src='myUploads" + city_photo + "' alt='" + city_name + "' />";
+            ans += "<h3>" + city_name + "</h3>";
+            ans += "</a>";
         }
-        return ans;
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return ans;
+}
+
+
+    
+    @PostMapping("/showServicesToUsers")
+    public String showServicesInUserHome(@RequestParam("city_id") String city_id)
+    {
+      int cityid = Integer.parseInt(city_id); // Use the correct variable name
+      String ans = new RDBMS_TO_JSON().generateJSON(
+      //  "SELECT DISTINCT services.* FROM services JOIN vendors ON v_service = services.service_id WHERE v_city = " + cityid + " AND v_status = 'Blocked'"
+       "SELECT DISTINCT s.service_id, s.service_name, s.service_desc, s.service_photo, " +
+        "MIN(v.v_price) AS min_price " + "FROM services s JOIN vendor v ON v.v_service = s.service_id " +
+        "WHERE v.v_city = " + cityid + " AND v.v_status = 'Approved' " +
+        "GROUP BY s.service_id, s.service_name, s.service_desc, s.service_photo"
+     );
+    return ans;
+    }  
+
+
+    @GetMapping("/getVendorsForServiceInCity")
+    public String getVendorsForServiceInCity(@RequestParam String service_id, @RequestParam String city_id) {
+    int sid = Integer.parseInt(service_id);
+    int cid = Integer.parseInt(city_id);
+
+    String ans = new RDBMS_TO_JSON().generateJSON(
+        "SELECT *" +
+        "FROM vendor v " +
+        "WHERE v.v_service = " + sid + " AND v.v_city = " + cid + " AND v.v_status = 'Approved'"
+    );
+    return ans;
     }
 
+ //    @GetMapping("/getVendorDetails")
+ //   public ResponseEntity<Map<String, Object>> getVendorDetails(@RequestParam("v_id") int v_id) {
+   //     Map<String, Object> response = new HashMap<>();
+//
+  //      try {
+    //        String query = "SELECT * FROM vendors WHERE v_id = '" + v_id + "'";
+      //      ResultSet rs = DBLoader.executeQuery(query);
+//
+  //          if (rs != null && rs.next()) {
+    //            response.put("status", "success");
+      //          response.put("v_id", rs.getInt("v_id"));
+        //        response.put("vendor_name", rs.getString("vendor_name"));
+          //      response.put("email", rs.getString("email"));
+            //    response.put("phone", rs.getString("phone"));
+              //  response.put("address", rs.getString("address"));
+                //response.put("photo", rs.getString("photo"));
+   //             response.put("category", rs.getString("category")); // only if this column exists
+     //       } else {
+       //         response.put("status", "error");
+         //       response.put("message", "Vendor not found");
+           // }
+    //    } catch (Exception e) {
+   //         e.printStackTrace();
+     //       response.put("status", "error");
+       //     response.put("message", "Exception occurred: " + e.getMessage());
+        //}
+
+        //return ResponseEntity.ok(response);
+   // }
+    
+    @GetMapping("/GetSingleVendorDetails")
+    public String getVendorDetails(@RequestParam int v_id) {
+        try {
+            String ans = new RDBMS_TO_JSON().generateJSON("select * from vendor where v_id ="+v_id+" ");
+            
+            return ans;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.toString();
+        }
+    }
 }

@@ -60,88 +60,44 @@
                 padding: 40px;
             }
 
-            /*            .form-section {
-                            max-width: 800px;
-                            margin: 50px auto;
-                            background-color: #fff;
-                            padding: 40px;
-                            border-radius: 20px;
-                            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-                        }
-            
-                        .form-label {
-                            font-weight: 600;
-                            margin-bottom: 6px;
-                        }
-            
-                        .form-control {
-                            border-radius: 12px;
-                            padding: 12px;
-                            font-size: 15px;
-                            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-                            transition: box-shadow 0.3s ease;
-                        }
-            
-                        .form-control:focus {
-                            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
-                            border-color: #007bff;
-                        }
-            
-                        .btn-primary {
-                            border-radius: 10px;
-                            padding: 12px 25px;
-                            font-weight: bold;
-                            transition: all 0.3s ease;
-                        }
-            
-                        .btn-primary:hover {
-                            transform: translateY(-2px);
-                            box-shadow: 0 8px 18px rgba(0, 123, 255, 0.4);
-                        }
-            
-                        @media (max-width: 768px) {
-                            .form-section {
-                                padding: 25px;
-                            }
-                        }*/
-        </style>
+       </style>
 
         <script>
 
             function UserSignUp() {
-//                alert('Signup Function Called');
-                var usname = document.getElementById("uname").value;
-                var usemail = document.getElementById("uemail").value;
-                var uspassword = document.getElementById("upass").value;
-                var usphoto = document.getElementById("uphoto").files[0];
-                var usaddress = document.getElementById("uaddress").value;
-                var uscontact = document.getElementById("ucontact").value;
+            //                alert('Signup Function Called');
+            var usname = document.getElementById("uname").value;
+            var usemail = document.getElementById("uemail").value;
+            var uspassword = document.getElementById("upass").value;
+            var usphoto = document.getElementById("uphoto").files[0];
+            var usaddress = document.getElementById("uaddress").value;
+            var uscontact = document.getElementById("ucontact").value;
 
-                console.log(usname, usemail, uspassword, usphoto, usaddress, uscontact);
+            console.log(usname, usemail, uspassword, usphoto, usaddress, uscontact);
 
-                var formdata = new FormData();
-                formdata.append("usname", usname);
-                formdata.append("usemail", usemail);
-                formdata.append("uspass", uspassword);
-                formdata.append("usphoto", usphoto);
-                formdata.append("usaddress", usaddress);
-                formdata.append("uscontact", uscontact);
+            var formdata = new FormData();
+            formdata.append("usname", usname);
+            formdata.append("usemail", usemail);
+            formdata.append("uspass", uspassword);
+            formdata.append("usphoto", usphoto);
+            formdata.append("usaddress", usaddress);
+            formdata.append("uscontact", uscontact);
 
-                fetch("/UserSignUp", {
-                    method: "POST",
-                    body: formdata
-                })
-                        .then(response => response.text())
-                        .then(ans => renderHTML3(ans))
-                        .catch(error => console.error("Error:", error));
+            fetch("/UserSignUp", {
+            method: "POST",
+            body: formdata
+            })
+            .then(response => response.text())
+            .then(ans => renderHTML3(ans))
+            .catch(error => console.error("Error:", error));
             }
             function renderHTML3(ans) {
-                if (ans.trim() === "User Registered Successfully!") {
-                    alert("User Added Successfully!");
-                    document.getElementById("UserSignUp").reset();
-                } else {
-                    alert(ans);
-                }
+            if (ans.trim() === "User Registered Successfully!") {
+            alert("User Added Successfully!");
+            document.getElementById("UserSignUp").reset();
+            } else {
+            alert(ans);
+            }
             }
 
         </script>
@@ -185,13 +141,7 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
-                            </ul>
+                            <a href="/UserSignup">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -207,8 +157,6 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
                                 <li><a href="blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
@@ -216,11 +164,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
-                                <li><a href="account.html">My Account</a></li>
+                                <li><a href="/UserLogin">User Login</a></li>
+                                <li><a href="/UserSignup">User Sign Up</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -237,7 +182,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+880 170 1111 000</a>
+                        <a href="tel:01701111000">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -264,7 +209,7 @@
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
                             <h2>User Sign Up</h2>
-                            <span><a href="UserLogin">Home</a><i class="bi bi-chevron-right"></i></span>
+                            <span><a href="/UserLogin">Home</a><i class="bi bi-chevron-right"></i></span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -293,7 +238,8 @@
 
                             <!-- Left Side: Image -->
                             <div class="col-md-5 text-center">
-                                <img src="/myUploads/VendormyUploads/signup.jpeg" alt="Sign Up" class="img-fluid rounded" style="height: 100%; max-height: 500px; object-fit: cover;">
+                                <img src="static/assets/images/home2/work-process.png" alt="Sign Up" class="img-fluid rounded" 
+                                     style="height: 100%; max-height: 500px; object-fit: cover;">
                             </div>
 
                             <!-- Right Side: Form -->
@@ -334,8 +280,16 @@
                                             <button type="button" class="btn btn-primary w-50" onclick="UserSignUp()">Sign Up User</button>
                                         </div>
 
+                                        <div class="other-signup">
+                                            <h4>Sign up WITH</h4>
+                                            <div class="others-account">
+                                                <a href="#" class="google"><i class="fab fa-google"></i>Signup with google</a>
+                                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12 mt-3 text-center">
-                                            <p>Want to login again? <a href="VendorLogin">Login</a></p>
+                                            <p>Want to login? <a href="/UserLogin">Login</a></p>
                                         </div>
                                     </div>
                                 </form>
@@ -359,7 +313,6 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -369,7 +322,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/UserLogin">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -399,7 +352,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111456">+923 5677 891</a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -417,7 +370,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01,Amritsar, Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>
@@ -431,7 +384,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                             </div>
                         </div>
                         <div class="col-lg-6">

@@ -30,26 +30,6 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
 
-        <!--        <style>
-                    .card {
-                        border: 1px solid #ccc;
-                        border-radius: 8px;
-                        padding: 16px;
-                        margin: 16px;
-                        width: 250px;
-                        display: inline-block;
-                        vertical-align: top;
-                    }
-                    .card img {
-                        width: 100%;
-                        height: 150px;
-                        object-fit: cover;
-                    }
-                    .card button {
-                        margin-top: 10px;
-                    }
-                </style>-->
-
         <style>
             /* Styling only vendorContainer's table */
             #vendorContainer {
@@ -128,246 +108,123 @@
             }
         </style>
 
-
-        <!--        <script>
-        //            fetch('/AdminGetAllVendors')
-        //                    .then(res => res.text())   // ✅ treat response as raw HTML
-        //                    .then(data => {
-        //                        const container = document.getElementById('vendorContainer');
-        //                        container.innerHTML = '';
-        //                        data.forEach(vendor => {
-        //                            const card = document.createElement('div');
-        //                            card.className = 'card';
-        //                            card.innerHTML = `
-        //                         <img src="data:image/jpeg;base64,${vendor.photo}" alt="Photo" />
-        //                         <h3>${vendor.name}</h3>
-        //                         <p>Price: ₹${vendor.price}</p>
-        //                         <p>Service: ${vendor.service}</p>
-        //                         <p>Subservice: ${vendor.subService}</p>
-        //                         <p>City: ${vendor.city}</p>
-        //                         <button onclick="toggleVendor('${vendor.email}', '${vendor.status}')">
-        //                             ${vendor.status === 'Block' ? 'Accept' : 'Block'}
-        //                         </button>
-        //                     `;
-        //                            container.appendChild(card);
-        //                        });
-        //                    });
-        //
-        //            function toggleVendor(email, status) {
-        //                const endpoint = status === 'Block' ? '/vendors/accept' : '/vendors/block';
-        //                fetch(endpoint, {
-        //                    method: 'POST',
-        //                    headers: {'Content-Type': 'application/json'},
-        //                    body: JSON.stringify({email})
-        //                }).then(() => location.reload());
-        //            }
-        
-        
-                    fetch('/AdminGetAllVendors')
-                            .then(res => res.text())   // still treating it as HTML
-                            .then(data => {
-                                const container = document.getElementById('vendorContainer');
-                                container.innerHTML = data; // Just put the HTML table
-                            });
-        
-                    function toggleVendor(v_id, v_status) {
-                        fetch('/ToggleVendorStatus', {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({v_id})
-                        }).then(() => location.reload());
-                    }
-        
-        
-        //            function acceptVendor(v_id) {
-        //                fetch(`/AcceptVendor?v_id=${v_id}`)
-        //                        .then(() => location.reload());
-        //            }
-        
-                    function blockVendor(vendorId, button) {
-                        fetch(`/vendor/block/${vendorId}`, {
-                            method: 'DELETE'
-                        })
-                                .then(response => {
-                                    if (response.ok) {
-                                        // Successfully deleted in database
-                                        button.innerText = 'Accept';
-                                        button.classList.remove('block');
-                                        button.classList.add('accept');
-                                        button.setAttribute('onclick', `acceptVendor(${vendorId}, this)`);
-                                    } else {
-                                        alert('Failed to block vendor.');
-                                    }
-                                })
-                                .catch(error => console.error('Error:', error));
-                    }
-        
-                    function acceptVendor(vendorId, button) {
-                        fetch(`/vendor/accept/${vendorId}`, {
-                            method: 'POST'
-                        })
-                                .then(response => {
-                                    if (response.ok) {
-                                        // Successfully added in database
-                                        button.innerText = 'Block';
-                                        button.classList.remove('accept');
-                                        button.classList.add('block');
-                                        button.setAttribute('onclick', `blockVendor(${vendorId}, this)`);
-                                    } else {
-                                        alert('Failed to accept vendor.');
-                                    }
-                                })
-                                .catch(error => console.error('Error:', error));
-                    }
-        
-        //            function deleteVendor(v_id) {
-        //                fetch(`/DeleteVendor?v_id=${v_id}`)
-        //                        .then(() => location.reload());
-        //            }
-        
-                    function toggleVendor(v_id, v_status) {
-                        fetch('/ToggleVendorStatus', {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({v_id})
-                        }).then(() => location.reload());
-                    }
-        
-                    function toggleVendor(v_id, v_status) {
-                        if (v_status !== 'Block') {
-                            if (!confirm("Are you sure you want to block and delete this vendor?")) {
-                                return; // stop if admin cancels
-                            }
-                        }
-        
-                        fetch('/ToggleVendorStatus', {
-                            method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({v_id})
-                        }).then(() => location.reload());
-                    }
-        
-        
-                </script>-->
-
         <script>
             function loadServiceProviders() {
-                fetch("/AdminShowVendors", {
-                    method: "POST"
-                })
-                        .then(response => response.text())
-                        .then(ans => renderAsHtml(ans));
+            fetch("/AdminShowVendors", {
+            method: "POST"
+            })
+            .then(response => response.text())
+            .then(ans => renderAsHtml(ans));
             }
             function renderAsHtml(ans) {
-                console.log(ans);
-                var mainobj = JSON.parse(ans);
-                var arr = mainobj["ans"];
+            console.log(ans);
+            var mainobj = JSON.parse(ans);
+            var arr = mainobj["ans"];
 
-                var s = ``;
+            var s = ``;
 
-                // Header row
-                s += `<div class="row font-weight-bold mb-3" 
-                       style="background-color:#f7f9fc; padding:15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-                                <div class="col-1">Name</div>
-                                <div class="col-2">Email</div>
-                                <div class="col-1">City</div>
-                                <div class="col-1">Service</div>
-                                <div class="col-2">Subservice</div>
-                                <div class="col-1">Price</div>
-                                <div class="col-2">Contact</div>
-                                <div class="col-1">Status</div>
-                                <div class="col-1">Action</div>
-                        </div>`;
+            // Header row
+            s += `<div class="row font-weight-bold mb-3" 
+            style="background-color:#f7f9fc; padding:15px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+            <div class="col-1">Name</div>
+            <div class="col-2">Email</div>
+            <div class="col-1">City</div>
+            <div class="col-1">Service</div>
+            <div class="col-2">Subservice</div>
+            <div class="col-1">Price</div>
+            <div class="col-2">Contact</div>
+            <div class="col-1">Status</div>
+            <div class="col-1">Action</div>
+            </div>`;
 
-                for (var i = 0; i < arr.length; i++) {
-                    var obj = arr[i];
-                    console.log(obj.status);
-                    s += `<div class="row align-items-center mb-3 p-3" 
-         style="background:white; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); transition:0.3s;">
+            for (var i = 0; i < arr.length; i++) {
+            var obj = arr[i];
+            var statusLower = obj.v_status.toLowerCase();
 
-        <div class="col-1">${obj.v_name}</div>
-        <div class="col-2">${obj.v_email}</div>
-        <div class="col-1">${obj.v_city}</div>
-        <div class="col-1">${obj.v_service}</div>
-        <div class="col-2">${obj.v_subservice}</div>
-        <div class="col-1">${obj.v_price}</div>
-        <div class="col-2">${obj.v_contact}</div>
-        <div class="col-1">${obj.v_status}</div>
-        <div class="col-1">
+            s += `<div class="row align-items-center mb-3 p-3" 
+            style="background:white; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05); transition:0.3s;">
+
+            <div class="col-1">${obj.v_name}</div>
+            <div class="col-2">${obj.v_email}</div>
+            <div class="col-1">${obj.v_city}</div>
+            <div class="col-1">${obj.v_service}</div>
+            <div class="col-2">${obj.v_subservice}</div>
+            <div class="col-1">${obj.v_price}</div>
+            <div class="col-2">${obj.v_contact}</div>
+            <div class="col-1">${obj.v_status}</div>
+            <div class="col-1">
             ${
-                            obj.v_status === "blocked"
-                            ? `<button class="btn btn-success btn-sm toggle-btn" 
-                        style="border-radius:20px; padding:4px 12px; font-size:12px;" 
-                        onclick="approveVendor(${obj.v_id})">Approve</button>`
-                            : `<button class="btn btn-danger btn-sm toggle-btn" 
-                        style="border-radius:20px; padding:4px 12px; font-size:12px;" 
-                        onclick="blockedVendor(${obj.v_id})">Blocked</button>`
-                            }
-        </div>
-
-    </div>`;
-                }
-
-                document.getElementById("dl").innerHTML = s;
+            statusLower === "blocked"
+            ? `<button class="btn btn-success btn-sm toggle-btn" 
+            style="border-radius:20px; padding:4px 12px; font-size:12px;" 
+            onclick="approveVendors(${obj.v_id})">Approve</button>`
+            : `<button class="btn btn-danger btn-sm toggle-btn" 
+            style="border-radius:20px; padding:4px 12px; font-size:12px;" 
+            onclick="blockVendors(${obj.v_id})">Block</button>`
+            }
+            </div>
+            </div>`;
             }
 
-            function approveVendor(v_id) {
-                var formdata = new FormData();
-                formdata.append("vid", v_id);
-
-                fetch("/approveVendors", {
-                    method: "POST",
-                    body: formdata
-                })
-                        .then(response => response.text())
-                        .then(ans => renderAfterApprove(ans));  // separate function
-
-                console.log(v_id);
+            document.getElementById("dl").innerHTML = s;
             }
 
-            function blockedVendor(v_id) {
-                var formdata = new FormData();
-                formdata.append("vid", v_id);
-
-                fetch("/blockVendors", {
-                    method: "POST",
-                    body: formdata
-                })
-                        .then(response => response.text())
-                        .then(ans => renderAfterBlock(ans));  // separate function
-
-                console.log(v_id);
+            function fetchVendors() {
+            fetch("/AdminShowVendors", {
+            method: "POST"
+            })
+            .then(response => response.text())
+            .then(ans => {
+            renderAsHtml(ans);
+            });
             }
-
-            // ------- SEPARATE HTML HANDLING FUNCTIONS ---------
 
             function renderAfterApprove(ans) {
-                console.log(ans);
-                if (ans.trim() === "success") {
-                    alert("Vendor approved successfully!");
-                    fetchVendors();  // reload vendors list
-                } else {
-                    alert("Something went wrong: " + ans);
-                }
+            if (ans.trim() === "success") {
+            alert("Vendor approved successfully!");
+            fetchVendors();
+            } else {
+            alert("Something went wrong: " + ans);
+            }
             }
 
             function renderAfterBlock(ans) {
-                console.log(ans);
-                if (ans.trim() === "success") {
-                    alert("Vendor blocked successfully!");
-                    fetchVendors();  // reload vendors list
-                } else {
-                    alert("Something went wrong: " + ans);
-                }
+            if (ans.trim() === "success") {
+            alert("Vendor blocked successfully!");
+            fetchVendors();
+            } else {
+            alert("Something went wrong: " + ans);
             }
-            function fetchVendors() {
-                fetch("/AdminManageServiceProviders", {
-                    method: "POST"
-                })
-                        .then(response => response.text())
-                        .then(ans => {
-                            renderAsHtml(ans);  // your table rendering function
-                        });
+            }
+
+            function approveVendors(vid) {
+            const formData = new FormData();
+            formData.append("vid", vid);
+
+            fetch("/approveVendors", {
+            method: "POST",
+            body: formData
+            })
+            .then(response => response.text())
+            .then(ans => renderAfterApprove(ans))
+            .catch(error => {
+            console.error("Error approving vendor:", error);
+            });
+            }
+
+            function blockVendors(vid) {
+            const formData = new FormData();
+            formData.append("vid", vid);
+
+            fetch("/blockVendors", {
+            method: "POST",
+            body: formData
+            })
+            .then(response => response.text())
+            .then(ans => renderAfterBlock(ans))
+            .catch(error => {
+            console.error("Error blocking vendor:", error);
+            });
             }
         </script>
     </head>
@@ -408,13 +265,7 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
-                            </ul>
+                            <a href="/AdminHome">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -439,11 +290,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
-                                <li><a href="account.html">My Account</a></li>
+                                <li><a href="/AdminLogin">Admin Login</a></li>
+                                <li><a href="#">Sign Up</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -460,7 +308,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+880 170 1111 000</a>
+                        <a href="tel:9235677891">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -481,13 +329,13 @@
         <!-- End header section -->
 
         <!-- Start breadcrumbs section -->
-        <section class="breadcrumbs">
+        <section class="breadcrumbsssss">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
                             <h2>Admin Manage Service Providers</h2>
-                            <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i>Admin Manage Vendors</span>
+                            <span><a href="/AdminHome">Home</a><i class="bi bi-chevron-right"></i>Admin Manage Vendors</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -497,15 +345,9 @@
             </div>
         </section>
         <!-- End breadcrumbs section -->
-
-        <!-- Start cards-area section -->
-        <!--       <div id="cityCards" style="width:90%; margin:auto; margin-top:20px;">
-                     City cards will load here 
-                </div>-->
-
-        <!-- End cards-area section -->
-
-        <h2 style="text-align:center"> Vendors Table</h2>
+        <br>
+        <br>
+        <h2 style="text-align:center;color:red"> Vendors Table</h2>
         <div id="dl"></div>
         <br>
         <br>
@@ -520,7 +362,6 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -530,7 +371,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/AdminHome">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -561,7 +402,7 @@
                                         </div>
                                         <div class="desc">
                                             <a href="tel:01761111456">+880 176 1111 456</a>
-                                            <a href="tel:01761111555">+880 176 1111 555</a>
+                                            <a href="tel:9235677891">+923 56778 91</a>
                                         </div>
                                     </div>
                                     <div class="info">
@@ -578,7 +419,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>
@@ -590,7 +431,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                             </div>
                         </div>
                         <div class="col-lg-6">

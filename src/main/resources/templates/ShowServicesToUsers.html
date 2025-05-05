@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Our services</title>
+        <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
+
+        <!-- Bootstrap CSS -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap icons CSS -->
+        <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
+        <!-- Fontawesome all CSS -->
+        <link href="assets/css/all.min.css" rel="stylesheet">
+        <!-- Fontawesome CSS -->
+        <link href="assets/css/fontawesome.min.css" rel="stylesheet">
+        <!-- Swiper slider CSS -->
+        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+        <!-- slick-slide -->
+        <link rel="stylesheet" href="assets/css/slick-theme.css">
+        <link rel="stylesheet" href="assets/css/slick.css">
+        <!-- Nice select CSS -->
+        <link rel="stylesheet" href="assets/css/nice-select.css">
+        <!-- Magnific-popup CSS -->
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="assets/css/animate.min.css">
+        <!--  Style CSS  -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <!-- Title -->
+
+        <style>
+            /*            .service-cards-container {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  Responsive grid 
+                            gap: 30px;
+                            max-width: 1200px;
+                            margin: 40px auto;
+                            padding: 0 20px;
+                            justify-items: center;  Centers items horizontally 
+                        }
+            
+                        .service-card {
+                            display: block;
+                            width: 100%;
+                            max-width: 400px;  or whatever size you want 
+                            text-align: center;
+                            text-decoration: none;
+                            color: #333;
+                            border-radius: 10px;
+                            background: #fff;
+                            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                            transition: transform 0.3s, box-shadow 0.3s;
+                        }
+            
+                        .service-card:hover {
+                            transform: scale(1.05);
+                            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);  Enhanced shadow on hover 
+                            cursor: pointer;
+                        }
+            
+            
+                        .service-card:hover {
+                            transform: scale(1.05);
+                            background-color: #f9f9f9;
+                        }
+            
+                        .service-card img {
+                            width: 100%;
+                            height: 280px;
+                            object-fit: cover;
+                            border-top-left-radius: 5px;
+                            border-top-right-radius: 10px;
+                        }
+            
+                        .service-card h3 {
+                            margin: 10px 0;
+                            padding: 0 10px;
+                            font-size: 18px;
+                        }*/
+            /*//Secoond CSSS
+                        .service-cards-container {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                            gap: 30px;
+                            max-width: 1200px;
+                            margin: 40px auto;
+                            padding: 0 20px;
+                            justify-items: center;
+                        }
+            
+                        .card {
+                            border-radius: 1rem;
+                            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                            transition: transform 0.4s ease, box-shadow 0.4s ease;
+                            background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+                        }
+            
+                        .card:hover {
+                            transform: translateY(-5px) scale(1.03);
+                            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+                        }
+            
+                        .card-img-top {
+                            height: 200px;
+                            object-fit: cover;
+                            border-top-left-radius: 1rem;
+                            border-top-right-radius: 1rem;
+                        }
+            
+                        .card-body {
+                            padding: 20px;
+                        }
+            
+                        .card-title {
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                            margin-bottom: 10px;
+                            color: #007bff;
+                        }
+            
+                        .card-body p {
+                            color: #28a745;
+                            font-weight: bold;
+                            font-size: 1rem;
+                            margin-bottom: 0;
+                        }
+            
+                        h3 {
+                            text-align: center;
+                            margin-bottom: 30px;
+                            color: #222;
+                            font-weight: 700;
+                            font-size: 2rem;
+                            border-bottom: 2px solid #ddd;
+                            padding-bottom: 10px;
+                            display: inline-block;
+                        }*/
+
+            .card {
+                border-radius: 1rem;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                transition: transform 0.4s ease, box-shadow 0.4s ease;
+                background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+                height: 100%; /* Let inner content decide height, but… */
+                min-height: 380px; /* Enforce square-ish shape */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .card-img-top {
+                height: 180px;
+                width: 100%;
+                object-fit: cover;
+                border-top-left-radius: 1rem;
+                border-top-right-radius: 1rem;
+            }
+
+            .card-body {
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                flex-grow: 1;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #007bff;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            .card-body p {
+                color: #28a745;
+                font-weight: bold;
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            .service-cards-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+                max-width: 1200px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+
+            .card-body .btn {
+                margin-top: 10px;
+                background-color: #007bff;
+                border: none;
+                color: white;
+                padding: 10px 16px;
+                border-radius: 6px;
+                transition: background-color 0.3s;
+            }
+
+            .card-body .btn:hover {
+                background-color: #0056b3;
+            }
+
+            h3 {
+                text-align: center;
+                margin-bottom: 30px;
+                color: #222;
+                font-weight: 700;
+                font-size: 2rem;
+                border-bottom: 2px solid #ddd;
+                padding-bottom: 10px;
+                display: inline-block;
+            }
+
+        </style>
+
+        <script>
+            var city;
+            function loadServicesIfCitySelected() {
+            const urlParams = new URLSearchParams(window.location.search);
+            city = urlParams.get('id');
+
+            alert(city);
+
+            if (!city) {
+            const serviceCards = document.getElementById("serviceCards");
+            if (serviceCards) {
+            serviceCards.innerHTML = "<h3>No city selected.</h3>";
+            }
+            return;
+            }
+
+            fetch(`/showServicesToUsers?city_id=${city}`, {
+            method: "POST"
+            })
+            .then(response => response.text())
+            .then(ans => renderServices(ans));
+            }
+
+            function renderServices(ans) {
+            let mainobj = JSON.parse(ans);
+            let arr = mainobj["ans"];
+            let s = '<div class="container"><div class="row g-4">';
+
+            for (let i = 0; i < arr.length; i++) {
+            let obj = arr[i];
+            s += `
+            <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0" style="border-radius: 1rem; cursor: pointer;" onclick="location.href='/ShowServiceProvidersToUsers?id=${obj.service_id}&city=${city}'">
+            <img src="/myUploads/VendormyUploads/${obj.service_photo}" class="card-img-top" style="height:180px; width:100%; object-fit:cover; border-top-left-radius: 1rem; border-top-right-radius: 1rem;" alt="Service Image">
+            <div class="card-body text-center">
+            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${obj.service_name}</h5>
+            <p class="text-success fw-bold mb-0">Starting from ₹${obj.min_price || "N/A"}</p>
+            </div>
+            </div>
+            </div>`;
+            }
+
+            s += '</div></div>';
+            document.getElementById("serviceCards").innerHTML = s;
+            }
+
+            window.onload = () => {
+            const path = window.location.pathname;
+
+            if (path.includes("ShowServicesToUsers")) {
+            loadServicesIfCitySelected();
+            } else {
+            loadCities();
+            }
+            };
+
+        </script>
+
+        <script>
+
+            function getdata(){
+
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+
+        <!--Start preloader area -->
+        <div class="egns-preloader">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-6">
+                        <div class="circle-border">
+                            <div class="moving-circle"></div>
+                            <div class="moving-circle"></div>
+                            <div class="moving-circle"></div>
+                            <svg width="180px" height="150px" viewBox="0 0 187.3 93.7" preserveAspectRatio="xMidYMid meet">
+                            <path stroke="#5BB543" id="outline" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                            <path id="outline-bg" opacity="0.05" fill="none" stroke="#959595" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End preloader area  -->
+
+        <!-- Start header section -->
+        <header class="header-2 sticky_top">
+            <div class="header-logo">
+                <a href="index2.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+            </div>
+            <div class="main-menu">
+                <nav class="main-nav">
+                    <div class="mobile-menu-logo">
+                        <a href="index2.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                        <div class="remove">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+                    </div>
+                    <ul>
+                        <li class="has-child active">
+                            <a href="/UserHome">Home</a>
+                        </li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li class="has-child">
+                            <a href="service.html">Services</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+                                <li><a href="service.html">Services</a></li>
+                                <li><a href="service-details.html">Service Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="blog.html">Blogs</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                    <div class="my-account">
+                        <a href="account.html">My Account</a>
+                    </div>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="phone">
+                    <div class="icon">
+                        <img src="assets/images/icons/phone.svg" alt="">
+                    </div>
+                    <div class="phn-info">
+                        <span>Call Us Now</span>
+                        <a href="tel:9235677891">+923 56778 91</a>
+                    </div>
+                </div>
+                <div class="wishlist">
+                    <a href="account.html"><i class="bi bi-suit-heart"></i></a>
+                </div>
+                <div class="account-btn">
+                    <a href="account.html">My Account</a>
+                </div>
+                <div class="mobile-menu">
+                    <a href="javascript:void(0)" class="cross-btn">
+                        <span class="cross-top"></span>
+                        <span class="cross-middle"></span>
+                        <span class="cross-bottom"></span>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <!-- End header section -->
+
+        <!-- Start hero-area-two section -->
+        <section class="hero-area-two">
+            <div class="container-fluid p-0">
+                <div class="hero-wrapper two">
+                    <div class="hero-banner">
+                        <img src="assets/images/home2/hero-banner.png" alt="">
+                    </div>
+                    <div class="hero-content">
+                        <span>Wellcome Our Service Sale</span>
+                        <h1>Restless Services into the Convenience</h1>
+                        <p>Where Convenience Meets Comfort — Right at Your Doorstep.
+
+                            Designed for Living, Built for Ease.
+
+                            Experience a Community That Works for You.
+
+                            Effortless Living Starts Here.
+
+                            Everyday Needs, Exceptionally Delivered</p>
+                        <div class="find-service">
+                            <div class="location-search">
+                                <div class="location-btn">
+                                    <i><img src="assets/images/icons/location.svg" alt=""></i>
+                                    <select class="loc-select">
+                                        <option selected="Punjab">Punjab</option>
+                                        <option value="Mumbai">Mumbai</option>
+                                        <option value="Kolkata">Kollkata</option>
+                                        <option value="Nagpur">Nagpur</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Delhi">Delhi</option>
+                                    </select>
+                                </div>
+                                <div class="location-form">
+                                    <form action="#" method="post">
+                                        <input type="text" name="location" placeholder="Find Your Services Here">
+                                        <button type="submit"><i class="bi bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="suggest">
+                                <span>Suggest For You:</span>
+                                <ul class="suggest-list">
+                                    <li><a href="service.html">Beauty & Salon</a></li>
+                                    <li><a href="service.html">Shifting</a></li>
+                                    <li><a href="service.html">AC Repair</a></li>
+                                    <li><a href="service.html">Wall-Painting</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End hero-area-two section -->
+        <br>
+        <div class="container" >
+            <h3 >Our Services</h3>
+            <div id="serviceCards" class="service-cards-container">
+                <!-- Cards will load here -->
+            </div>
+        </div>
+        <!-- End creative-services section -->
+        <div class="swiper creative-service-slider-two">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="creative-service-layout-2">
+                    </div>
+                </div>                       
+            </div>
+        </div>
+
+        <!-- Start features-shop-two section -->
+        <section class="features-shop-two">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sec-title layout-2">
+                            <div class="title-left">
+                                <h2>Our Feature Shop</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper shop-slider layout-2">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="single-shop layout-2">
+                                <div class="tag">
+                                    <a href="service.html">Cleaning</a>
+                                </div>
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-1-home2.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <h4>Cleaning Store</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInDown" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="single-shop layout-2">
+                                <div class="tag">
+                                    <a href="service.html">Plumbing</a>
+                                </div>
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-2.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <h4>Plumbing Store</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="single-shop layout-2">
+                                <div class="tag">
+                                    <a href="service.html">Security</a>
+                                </div>
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-3.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <h4>Security Agency</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="single-shop layout-2">
+                                <div class="tag">
+                                    <a href="service.html">Gadget</a>
+                                </div>
+                                <div class="shop-thumb">
+                                    <img src="assets/images/shop/shop-4.png" alt="">
+                                </div>
+                                <div class="shop-inner">
+                                    <h4>Gadget Repair</h4>
+                                    <div class="ratting">
+                                        <ul class="stars">
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        <strong>(5/5)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+        <!-- End features-shop-two section -->
+
+        <!-- Start popular-services-two section -->
+
+        <!-- Start work-process section -->
+        <section class="work-process sec-m">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
+                        <div class="work-process-left">
+                            <div class="sec-title layout-2">
+                                <div class="title-left">
+                                    <h2>Our Work Process</h2>
+                                </div>
+                            </div>
+                            <img src="assets/images/home2/work-process.png" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow animate fadeInRight" data-wow-delay="400ms" data-wow-duration="1500ms">
+                        <div class="work-process-right">
+                            <div class="work-step">
+                                <div class="step-num">
+                                    <span>01</span>
+                                </div>
+                                <div class="step-cnt">
+                                    <h4>Understanding Your Requirements</h4>
+                                    <p>We begin by carefully reviewing your needs to ensure our services are tailored to meet your expectations.</p>
+                                </div>
+                            </div>
+                            <div class="work-step">
+                                <div class="step-num">
+                                    <span>02</span>
+                                </div>
+                                <div class="step-cnt">
+                                    <h4>Preparing Our Tools & Team</h4>
+                                    <p>Once we understand the task, we gather the right equipment and assign skilled professionals for the job.</p>
+                                </div>
+                            </div>
+                            <div class="work-step">
+                                <div class="step-num">
+                                    <span>03</span>
+                                </div>
+                                <div class="step-cnt">
+                                    <h4>Planing Work Process.</h4>
+                                    <p>We create a clear, step-by-step plan to complete the task efficiently and with the highest quality.</p>
+                                </div>
+                            </div>
+                            <div class="work-step">
+                                <div class="step-num border-n">
+                                    <span>04</span>
+                                </div>
+                                <div class="step-cnt">
+                                    <h4> Executing with Precision</h4>
+                                    <p>Our team carries out the work with care and dedication, ensuring outstanding results every time.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End work-process section -->
+
+        <!-- Start choose-us section -->
+        <!-- Start choose-us section -->
+        <section class="choose-us sec-m-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="choose-us-left">
+                            <div class="sec-title layout-2 wow animate fadeInDown" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                <div class="title-left">
+                                    <span>Trust Agency</span>
+                                    <h2>Why Choose Us</h2>
+                                    <p>We deliver dependable, high-quality doorstep services tailored to your needs. Our team is trained, trustworthy, and committed to your satisfaction.</p>
+                                </div>
+                            </div>
+                            <div class="choose-steps">
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-1.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>Ensuring Masks</h4>
+                                        <p>Your safety comes first. All our service professionals wear masks and follow strict health protocols during every visit.</p>
+                                    </div>
+                                </div>
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="600ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-2.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>24/7 Supports</h4>
+                                        <p>Need help at any hour? Our support team is available around the clock to assist you with bookings, issues, or questions.</p>
+                                    </div>
+                                </div>
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="800ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-3.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>Sanitising Hands</h4>
+                                        <p> Hygiene is a top priority. We ensure every team member sanitizes their hands before and after every service call.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                        <div class="choose-us-right">
+                            <img src="assets/images/home2/choose-us.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End choose-us section -->
+
+        <!-- Start footer section -->
+        <footer class="footer-2">
+            <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="row gy-5">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="footer-widget with-logo">
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                                </div>
+                                <div class="request-btn">
+                                    <a href="contact.html">Request a Service</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Explore On</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="/UserHome">Home</a></li>
+                                    <li><a href="blog.html">Blog Grid</a></li>
+                                    <li><a href="#">Help & Support</a></li>
+                                    <li><a href="service-details.html">Services Details</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms of use</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Categories</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="service.html">Electronics</a></li>
+                                    <li><a href="service.html">Driver Service</a></li>
+                                    <li><a href="service.html">Electric & Plumbing</a></li>
+                                    <li><a href="service.html">Gadgets Repair</a></li>
+                                    <li><a href="service.html">Security Service</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="footer-widget">
+                                <h4>Contacts</h4>
+                                <div class="information">
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="tel:9235677891">+923 5677 891</a>
+                                            <a href="tel:9235677891">+923 5677 891</a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="far fa-envelope"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#731a1d151c33160b121e031f165d101c1e"><span class="__cf_email__" data-cfemail="86efe8e0e9c6e3fee7ebf6eae3a8e5e9eb">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#fa93949c95ba898f8a8a95888ed4999597"><span class="__cf_email__" data-cfemail="dbb2b5bdb49ba8aeababb4a9aff5b8b4b6">[email&#160;protected]</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copy-right">
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="footer-social-media">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End footer section -->
+
+        <!--  Main jQuery  -->
+        <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
+        <!-- Popper and Bootstrap JS -->
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <!-- Swiper slider JS -->
+        <script src="assets/js/swiper-bundle.min.js"></script>
+        <!-- Slick slider JS -->
+        <script src="assets/js/slick.js"></script>
+        <!-- Nice select JS -->
+        <script src="assets/js/jquery.nice-select.min.js"></script>
+        <!-- Waypoints JS -->
+        <script src="assets/js/waypoints.min.js"></script>
+        <!-- Counterup JS -->
+        <script src="assets/js/jquery.counterup.min.js"></script>
+        <!-- Magnific-popup  JS -->
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!-- Wow JS -->
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/anime.min.js"></script>
+        <!-- Custom JS -->
+        <script src="assets/js/custom.js"></script>
+
+    </body>
+
+
+    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:23:01 GMT -->
+</html>

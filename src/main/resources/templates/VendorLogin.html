@@ -35,26 +35,26 @@
         <script>
             function Vendorlogincreds() {
 
-                var email = document.getElementById("email").value;
-                var pass = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var pass = document.getElementById("password").value;
 
-                var formdata = new FormData();
-                formdata.append("email", email);
-                formdata.append("password", pass);
-                fetch("/Vendorlogin", {method: "POST", body: formdata})
-                        .then(response => response.text())
-                        .then(ans => renderHTML(ans));
+            var formdata = new FormData();
+            formdata.append("email", email);
+            formdata.append("password", pass);
+            fetch("/Vendorlogin", {method: "POST", body: formdata})
+            .then(response => response.text())
+            .then(ans => renderHTML(ans));
             }
             function renderHTML(ans) {
-                console.log(ans);
-               if (ans.startsWith("success")) {
-                    alert("Success");
-                    window.location.href = "/VendorHome";
-                }
-                else
-                {
-                    alert("Login Failed");
-                }
+            console.log(ans);
+            if (ans.startsWith("success")) {
+            alert("Success");
+            window.location.href = "/VendorHome";
+            }
+            else
+            {
+            alert("Login Failed");
+            }
 
             }
         </script>
@@ -97,13 +97,9 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="index.html">Home</a>
+                            <a href="/VendorLogin">Home</a>
                             <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="index.html">Home 01</a></li>
-                                <li><a href="index2.html">Home 02</a></li>
-                                <li><a href="index3.html">Home 03</a></li>
-                            </ul>
+
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -119,8 +115,6 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-sidebar.html">Blog Sidebar</a></li>
-                                <li><a href="blog-standard.html">Blog Standard</a></li>
                                 <li><a href="blog-details.html">Blog Details</a></li>
                             </ul>
                         </li>
@@ -128,11 +122,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="login.html">Admin Login</a></li>
-                                <li><a href="sign-up.html">Sign Up</a></li>
-                                <li><a href="error.html">Error 404</a></li>
-                                <li><a href="faq.html">FAQs</a></li>
-                                <li><a href="account.html">My Account</a></li>
+                                <li><a href="/VendorLogin">Vendor Login</a></li>
+                                <li><a href="/VendorSignup">Sign Up</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -149,7 +140,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+880 170 1111 000</a>
+                        <a href="tel:01701111000">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -176,7 +167,7 @@
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
                             <h2>Vendor Login</h2>
-                            <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
+                            <span><a href="/VendorLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -205,8 +196,14 @@
                             <a href="#">Forgot Your Password</a>
                         </div>
                         <div class="cmn-btn">
-                        <input type="button" class="btn btn-info" onclick="Vendorlogincreds()" value="Login">
-                        </div>
+                            <input type="button" class="btn btn-info" onclick="Vendorlogincreds()" value="Login">
+                            <div class="other-signup">
+                                <h4>or Sign up WITH</h4>
+                                <div class="others-account">
+                                    <a href="https://www.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
+                                    <a href="https://www.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
+                                </div>
+                            </div>
                     </form>
                 </div>
             </div>
@@ -224,7 +221,6 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
-                                <p>Aenean fermentum sapien acena gravida. Fusce a ipsum metuslai. Suspendisse oi potenti.</p>
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -234,7 +230,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="/VendorLogin">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -264,7 +260,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+880 176 1111 456</a>
+                                            <a href="tel:01761111456">+923 5677 891</a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -282,7 +278,7 @@
                                             <i class="fas fa-map-marker-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <p>168/170, Avenue 01, Mirpur DOHS, Bangladesh</p>
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
                                         </div>
                                     </div>
                                 </div>
@@ -294,7 +290,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                             </div>
                         </div>
                         <div class="col-lg-6">

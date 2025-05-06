@@ -33,31 +33,31 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
         <style>
-            
-           
+
+
         </style>
         <script>
             function userlogincreds() {
 
-                var email = document.getElementById("email").value;
-                var pass = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var pass = document.getElementById("password").value;
 
-                var formdata = new FormData();
-                formdata.append("email", email);
-                formdata.append("password", pass);
-                fetch("/Userlogin", {method: "POST", body: formdata})
-                        .then(response => response.text())
-                        .then(ans => renderHTML(ans));
+            var formdata = new FormData();
+            formdata.append("email", email);
+            formdata.append("password", pass);
+            fetch("/Userlogin", {method: "POST", body: formdata})
+            .then(response => response.text())
+            .then(ans => renderHTML(ans));
             }
             function renderHTML(ans) {
-                console.log(ans);
-                if (ans === "success") {
-                    alert("Success");
-                    window.location.href = "/UserHome";
-                } else
-                {
-                    alert("Login Failed");
-                }
+            console.log(ans);
+            if (ans === "success") {
+            alert("Success");
+            window.location.href = "/UserHome";
+            } else
+            {
+            alert("Login Failed");
+            }
 
             }
         </script>
@@ -204,14 +204,14 @@
                                 <input type="button" class="btn btn-info" onclick="userlogincreds()" value="Login">
                             </div>
                         </form>
-                    <div class="other-signup">
-                    <h4>or Sign up WITH</h4>
-                    <div class="others-account">
-                        <a href="https://www.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
-                        <a href="https://www.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
-                    </div>
-                </div>
-                <p>By clicking the "Sign up" button, you create a User account, and you agree to Our Policies <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy.</a></p>
+                        <div class="other-signup">
+                            <h4>or Sign up WITH</h4>
+                            <div class="others-account">
+                                <a href="https://www.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
+                                <a href="https://www.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
+                            </div>
+                        </div>
+                        <p>By clicking the "Sign up" button, you create a User account, and you agree to Our Policies <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy.</a></p>
                     </div>
                 </div>
             </div>

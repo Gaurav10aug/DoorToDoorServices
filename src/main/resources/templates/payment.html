@@ -7,7 +7,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vendor Home</title>
+        <title>Admin Login</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
 
         <!-- Bootstrap CSS -->
@@ -31,24 +31,127 @@
         <link rel="stylesheet" href="assets/css/animate.min.css">
         <!--  Style CSS  -->
         <link rel="stylesheet" href="assets/css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Title -->
-        <style>
-            .single-service {
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        <!--payment start-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="js/Razorpay.js" type="text/javascript"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <!--payment end-->
+
+        <script>
+             const params = new URLSearchParams(window.location.search);
+             const amount = params.get("total");
+            function paymentlogic(total)
+            {
+
+                var options = {
+                    "key": "rzp_test_96HeaVmgRvbrfT",
+                    "amount": total + "00",
+                    "name": "Door Step Service",
+                    "description": "",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOmghn1er2yRA0yXfMRmroSSpWEdAGNV5KHg&usqp=CAU",
+                    "handler": function (response) {
+
+                        if (response.razorpay_payment_id == "" || response.razorpay_payment_id == undefined) {
+
+                            window.location.href = "payment_action?status=failed";
+                            // paymentfail(authormobile,"Payment failed!");
+
+                            alert("Payment Failed")
+
+                        } else {
+                            //success
+                            makePayment('online');
+                            //payment success
+                            //call your book payment function here
+                        }
+                    },
+                    "prefill": {
+                        "name": "HealHub ",
+                        "email": ""
+                    },
+                    "notes": {
+                        "address": ""
+                    },
+                    "theme": {
+                        "color": "#F37254"
+                    },
+                    "modal": {
+                        "ondismiss": function () {
+                            $("#statusmodal").modal("show");
+                            document.getElementById("status").innerHTML = "Payment failed ! Try again";
+                        }
+                    }
+                };
+
+
+
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    console.log("a2");
+                    console.log(response.error.code);
+
+                    alert("Payment Failed");
+
+                });
+                rzp1.open();
             }
 
-            .single-service:hover {
-                transform: scale(1.05);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-                z-index: 1;
+        </script>      
+
+
+        <script>
+            function online()
+            {
+                paymentlogic(amount);
             }
-        </style>
-<!--        <script>
-             alert("Approved by Admin");
-        </script>-->
+            function cash()
+            {
+                makePayment('cash');
+            }
+            function makePayment(type) {
+                const params = new URLSearchParams(window.location.search);
+                const date = params.get("date");
+                const v_email = params.get("email");
+                const amount = params.get("total");
+                const slots = params.get("slots");
+                const status = "pending";
+
+                const url = `/pay?date=${encodeURIComponent(date)}&vendor_email=${encodeURIComponent(v_email)}&amount=${encodeURIComponent(amount)}&slots=${encodeURIComponent(slots)}&type=${encodeURIComponent(type)}&status=${encodeURIComponent(status)}`;
+
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans.includes("success")) {
+                                Swal.fire(
+                                        'Success!',
+                                        'Your booking and payment were recorded successfully.',
+                                        'success'
+                                        );
+                            } else {
+                                Swal.fire(
+                                        'Error!',
+                                        'Something went wrong: ' + ans,
+                                        'error'
+                                        );
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                    'Error!',
+                                    'Request failed: ' + error,
+                                    'error'
+                                    );
+                        });
+            }
+
+        </script>
 
     </head>
-
     <body>
 
         <!--Start preloader area -->
@@ -86,7 +189,12 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="/VendorHome">Home</a>
+                            <a href="/AdminLogin">Home</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+
+
+                            </ul>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -109,15 +217,11 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="/VendorLogin">Vendor Login</a></li>
-                                <li><a href="/VendorSignup">Vendor Sign Up</a></li>
+                                <li><a href="/AdminLogin">Admin Login</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
-                    <div class="my-account">
-                        <a href="account.html">My Account</a>
-                    </div>
                 </nav>
             </div>
             <div class="header-right">
@@ -127,7 +231,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+923 5677 891</a>
+                        <a href="tel:9235677891">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -148,13 +252,13 @@
         <!-- End header section -->
 
         <!-- Start breadcrumbs section -->
-        <section class="breadcrumbss">
+        <section class="breadcrumbs">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
-                            <h2>Vendor Home</h2>
-                            <span><a href="/VendorHome">Home</a><i class="bi bi-chevron-right"></i>Vendor login</span>
+                            <h2>Admin Login</h2>
+                            <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -166,104 +270,68 @@
         <!-- End breadcrumbs section -->
 
         <!-- Start login-area section -->
-        <!--        <section id="down" class="login-area sec-p">-->
-        <br>
-        <br>
-        <br>
-        <div class="container">
-            <div class="row g-4">
-
-                <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                    <div class="single-service layout-2 layout-3">
-                        <div class="thumb">
-                            <a href="VendorManagePhotos"><img src="/myUploads/VendormyUploads/mp.jpeg" alt=""></a>
-                            <div class="tag">
-                                <a href="VendorManagePhotos">Manage Photos</a>
-                            </div>
-                            <div class="wish">
-                                <a href="VendorManagePhotos"><i class="bi bi-suit-heart"></i></a>
-                            </div>
-                        </div>
-                        <div class="single-inner">
-                            <div class="author-info">
-                                <div class="author-thumb">
-                                    <img src="assets/images/services/service-author-2.png" alt="">
-                                </div>
-                                <div class="author-content">
-                                    <span>Manage Photos</span>
-                                    <div class="ratting">
-                                        <ul class="stars">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                        <strong>(5/5)</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                    <div class="single-service layout-2 layout-3">
-                        <div class="thumb">
-                            <a href="EditVendorDetails"><img src="/myUploads/VendormyUploads/edde.jpeg" style="height:190px;width:320px" alt=""></a>
-                            <div class="tag">
-                                <a href="EditVendorDetails">Edit Details</a>
-                            </div>
-                            <div class="wish">
-                                <a href="EditVendorDetails"><i class="bi bi-suit-heart"></i></a>
-                            </div>
-                        </div>
-                        <div class="single-inner">
-                            <div class="author-info">
-                                <div class="author-thumb">
-                                    <img src="assets/images/services/service-author-2.png" alt="">
-                                </div>
-                                <div class="author-content">
-                                    <span>Edit Detalis</span>
-                                    <div class="ratting">
-                                        <ul class="stars">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                        <strong>(5/5)</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End login-area section -->
-
-     <!-- Start footer section -->
-        <footer class="footer-2">
-            <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
+        <section id="down" class="login-area sec-p">
             <div class="container">
-                <div class="footer-top">
-                    <div class="row gy-5">
-                        <div class="col-md-6 col-lg-5">
-                            <div class="footer-widget with-logo">
-                                <div class="footer-logo">
-                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                <div class="login-form">
+                    <h3>Choose Payment Mode</h3>
+                    <form>
+                        <div class="cmn-btn">
+                            <input type="button" class="btn btn-info" onclick="online()" value="Online">
+                        </div>
+                        <br><!-- comment -->
+                        <br>
+                        <div class="cmn-btn">
+                            <input type="button" class="btn btn-info" onclick="cash()" value="Cash">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- End login-area section -->
+
+        <!-- Start footer section -->
+        <footer class="footer-3">
+            <div class="container-fluid p-0">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="footer-widget">
+                            <h4>Contacts</h4>
+                            <div class="information">
+                                <div class="info">
+                                    <div class="icon">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div class="desc">
+                                        <a href="tel:9235677891">+923 5677 891</a>
+                                        <a href="tel:9235677891">+923 5677 891</a>
+                                    </div>
                                 </div>
-                                <div class="request-btn">
-                                    <a href="contact.html">Request a Service</a>
+                                <div class="info">
+                                    <div class="icon">
+                                        <i class="far fa-envelope"></i>
+                                    </div>
+                                    <div class="desc">
+                                        <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#d6bfb8b0b996b3aeb7bba6bab3f8b5b9bb"><span class="__cf_email__" data-cfemail="c6afa8a0a986a3bea7abb6aaa3e8a5a9ab">[email&#160;protected]</span></a>
+                                        <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#b4dddad2dbf4c7c1c4c4dbc6c09ad7dbd9"><span class="__cf_email__" data-cfemail="ddb4b3bbb29daea8adadb2afa9f3beb2b0">[email&#160;protected]</span></a>
+                                    </div>
+                                </div>
+                                <div class="info">
+                                    <div class="icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="desc">
+                                        <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-2">
+                    </div>
+                    <div class="footer-right">
+                        <div class="footer-widgets-group">
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="/VendorHome">Home</a></li>
+                                    <li><a href="/AdminLogin">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -271,8 +339,6 @@
                                     <li><a href="#">Terms of use</a></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-2">
                             <div class="footer-widget">
                                 <h4>Categories</h4>
                                 <ul class="footer-menu">
@@ -283,59 +349,27 @@
                                     <li><a href="service.html">Security Service</a></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="footer-widget">
-                                <h4>Contacts</h4>
-                                <div class="information">
-                                    <div class="info">
-                                        <div class="icon">
-                                            <i class="fas fa-phone-alt"></i>
-                                        </div>
-                                        <div class="desc">
-                                            <a href="tel:01761111456">+923 5677 891/a>
-                                            <a href="tel:01761111555">+880 176 1111 555</a>
-                                        </div>
-                                    </div>
-                                    <div class="info">
-                                        <div class="icon">
-                                            <i class="far fa-envelope"></i>
-                                        </div>
-                                        <div class="desc">
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="info">
-                                        <div class="icon">
-                                            <i class="fas fa-map-marker-alt"></i>
-                                        </div>
-                                        <div class="desc">
-                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
-                                        </div>
-                                    </div>
+                            <div class="footer-widget with-logo">
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                                </div>
+                                <div class="request-btn">
+                                    <a href="contact.html">Request a Service</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6">
-                            <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
-                            </div>
+                        <div class="footer-social-footer">
+                            <ul>
+                                <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
+                                <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                            </ul>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="footer-social-media">
-                                <ul>
-                                    <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
-                                    <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
+                        <div class="copy-right-txt">
+                            <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                         </div>
+                        <img src="assets/images/home3/footer-circle.png" alt="" class="circle">
                     </div>
                 </div>
             </div>

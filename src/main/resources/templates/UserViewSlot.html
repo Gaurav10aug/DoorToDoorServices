@@ -7,7 +7,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vendor Home</title>
+        <title>User Login</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
 
         <!-- Bootstrap CSS -->
@@ -32,23 +32,113 @@
         <!--  Style CSS  -->
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
-        <style>
-            .single-service {
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            function go() {
+
+
+            //                var email = document.getElementById("display").innerText;
+
+            var s = document.getElementById("datepicker").value;
+
+
+            if (s === '')
+            {
+            alert("Choose Dates first");
+            } else {
+
+            var url = "./view_slots?email=" + email + "&date=" + s;
+            fetch(url)
+            .then(response => response.text())
+            .then(ans => renderhtml(ans));
             }
 
-            .single-service:hover {
-                transform: scale(1.05);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-                z-index: 1;
+
             }
-        </style>
-<!--        <script>
-             alert("Approved by Admin");
-        </script>-->
+
+            var slot_amount = 0;
+            function renderhtml(ans) {
+
+            var mainobj = JSON.parse(ans);
+            var arr = mainobj.ans;
+            var count = 1;
+            var output = '<table class="table table-hover">';
+            output += ' <tr>';
+            output += ' <th>index number</th>';
+            output += '<th>start slot</th>';
+            output += '<th>end slot</th>';
+
+            output += '<th>status</th>';
+            output += '</tr>';
+            for (var i = 0; i < arr.length; i++) {
+            var obj = arr[i];
+            output += '<tr>';
+            if (obj.status === "Booked") {
+            output += '<td><input type="checkbox" disabled/></td>';
+            } else {
+            output += '<td><input type="checkbox" name="c1" id="check" value="' + obj.start_slot + '" onchange="slot(this)" /></td>';
+            }
+            output += '<td>' + obj.start_slot + '</td>';
+            output += '<td>' + obj.end_slot + '</td>';
+            output += '<td>' + obj.status + '</td>';
+            slot_amount = obj.slot_amount;
+
+            output += '</tr>';
+            count++;
+            }
+            output += '</table>';
+            document.getElementById("table").innerHTML = output;
+
+            }
+
+            var count = 0;
+            var total = 0;
+            function slot(checkbox) {
+
+            if (checkbox.checked) {
+
+            count++;
+            } else {
+
+            count--;
+            }
+
+            total = count * slot_amount;
+            var output = '<table class="table table-hover">';
+            output += '<tr>';
+            output += '<td> Number of slots </td>';
+            output += '<td>' + count + '</td>';
+            output += '</tr>';
+            output += '<tr>';
+            output += '<td> total value </td>';
+            output += '<td>' + total + '</td>';
+            output += '</tr>';
+
+            output += '</table>';
+            output += '<input type="button" class="btn btn-primary form-control mt-2" value="click on the button to pay the value" onclick="pay()"/>';
+            document.getElementById("slot").innerHTML = output;
+            }
+
+            var allslots = '';
+            function pay() {
+
+            var c = document.getElementsByName("c1");
+            var date = document.getElementById("datepicker").value;
+
+            console.log(c);
+            for (var i = 0; i < c.length; i++) {
+
+            if (c[i].checked) {
+            allslots += c[i].value + ",";
+            }
+            }
+            window.location.href = "/payment?date=" + date + "&email=" + email + "&total=" + total + "&slots=" + allslots + " ";
+            }
+
+        </script>
 
     </head>
-
     <body>
 
         <!--Start preloader area -->
@@ -86,7 +176,7 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="/VendorHome">Home</a>
+                            <a href="/UserLogin">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -109,8 +199,8 @@
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="/VendorLogin">Vendor Login</a></li>
-                                <li><a href="/VendorSignup">Vendor Sign Up</a></li>
+                                <li><a href="/UserLogin">User Login</a></li>
+                                <li><a href="/UserSignup">User Sign Up</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -148,13 +238,13 @@
         <!-- End header section -->
 
         <!-- Start breadcrumbs section -->
-        <section class="breadcrumbss">
+        <section class="breadcrumbs" >
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
-                            <h2>Vendor Home</h2>
-                            <span><a href="/VendorHome">Home</a><i class="bi bi-chevron-right"></i>Vendor login</span>
+                            <h2 >User Login</h2>
+                            <span><a href="/UserLogin">Home</a><i class="bi bi-chevron-right"></i>User login</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -165,85 +255,183 @@
         </section>
         <!-- End breadcrumbs section -->
 
-        <!-- Start login-area section -->
-        <!--        <section id="down" class="login-area sec-p">-->
         <br>
-        <br>
-        <br>
-        <div class="container">
-            <div class="row g-4">
+        <div class="card border-info mb-3" style="margin: 0 100px;">
+            <div class="card-header bg-info text-white"><strong>How Booking Works</strong></div>
+            <div class="card-body">
+                <p>Select a date using the calendar above. Once selected, available time slots will be shown.</p>
+                <p><strong>Available</strong> slots can be selected using checkboxes.</p>
+                <p>Each slot has a fixed price. The total will update as you check/uncheck slots.</p>
+                <p>Click the payment button once you’ve selected your desired slots.</p>
+            </div>
+        </div>
+        <div class="text-center alert alert-success" style="margin-top: 70px">
+            <h3>Date: <input type="date" id="datepicker" class="alet alert-warning" onchange="go()"></h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 m-3  " id="table" >
 
-                <!-- Card 1 -->
-                <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                    <div class="single-service layout-2 layout-3">
-                        <div class="thumb">
-                            <a href="VendorManagePhotos"><img src="/myUploads/VendormyUploads/mp.jpeg" alt=""></a>
-                            <div class="tag">
-                                <a href="VendorManagePhotos">Manage Photos</a>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+
+            </div>
+            <div class="col-sm-4 m-3" id="slot">
+
+            </div>
+            <div class="col-sm-4">
+
+            </div>
+        </div>
+        <br>
+
+        <section class="new-shop-here sec-m">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <div class="sec-title layout-2 special">
+                            <div class="title-left">
+                                <h2>new store has joined us</h2>
                             </div>
-                            <div class="wish">
-                                <a href="VendorManagePhotos"><i class="bi bi-suit-heart"></i></a>
+                            <div class="title-right">
+                                <a href="service.html">View All Shop<span><i class="bi bi-arrow-right"></i></span></a>
                             </div>
                         </div>
-                        <div class="single-inner">
-                            <div class="author-info">
-                                <div class="author-thumb">
-                                    <img src="assets/images/services/service-author-2.png" alt="">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="slick-wrapper wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.2s">
+                        <div id="shop-arrival" class="d-flex justify-content-center">
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-1.png" alt="">
                                 </div>
-                                <div class="author-content">
-                                    <span>Manage Photos</span>
-                                    <div class="ratting">
-                                        <ul class="stars">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                        <strong>(5/5)</strong>
-                                    </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-6.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-7.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-8.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-9.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-10.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-11.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-12.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-1.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-2.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-4.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-5.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-6.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-7.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-8.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-9.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-10.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-11.png" alt="">
+                                </div>
+                            </div>
+                            <div class="slide-item">
+                                <div class="new-shop">
+                                    <img src="assets/images/shop/new-arrival-12.png" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+        <!-- End new-shop-here section -->
 
-                <div class="col-md-6 col-lg-4 wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
-                    <div class="single-service layout-2 layout-3">
-                        <div class="thumb">
-                            <a href="EditVendorDetails"><img src="/myUploads/VendormyUploads/edde.jpeg" style="height:190px;width:320px" alt=""></a>
-                            <div class="tag">
-                                <a href="EditVendorDetails">Edit Details</a>
-                            </div>
-                            <div class="wish">
-                                <a href="EditVendorDetails"><i class="bi bi-suit-heart"></i></a>
-                            </div>
-                        </div>
-                        <div class="single-inner">
-                            <div class="author-info">
-                                <div class="author-thumb">
-                                    <img src="assets/images/services/service-author-2.png" alt="">
-                                </div>
-                                <div class="author-content">
-                                    <span>Edit Detalis</span>
-                                    <div class="ratting">
-                                        <ul class="stars">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                        <strong>(5/5)</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End login-area section -->
-
-     <!-- Start footer section -->
+        <!-- Start footer section -->
         <footer class="footer-2">
             <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
             <div class="container">
@@ -263,7 +451,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="/VendorHome">Home</a></li>
+                                    <li><a href="/UserLogin">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -293,7 +481,7 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+923 5677 891/a>
+                                            <a href="tel:01761111456">+923 5677 891</a>
                                             <a href="tel:01761111555">+880 176 1111 555</a>
                                         </div>
                                     </div>
@@ -323,7 +511,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By <a href="https://www.egenslab.com/">Egens Lab</a></span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
                             </div>
                         </div>
                         <div class="col-lg-6">

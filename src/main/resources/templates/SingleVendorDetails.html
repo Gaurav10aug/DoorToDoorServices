@@ -68,10 +68,12 @@
             <!-- Title -->
 
             <script>
-                function getSingleVendorData(){
-              
                 const urlParams = new URLSearchParams(window.location.search);
                 const v_id = urlParams.get('id');
+                var email=``;
+                function getSingleVendorData(){
+              
+                
 
                 console.log(v_id);
 
@@ -86,7 +88,7 @@
                 let mainobj = JSON.parse(ans);
                 let arr = mainobj["ans"];
 
-
+                email=arr[0].v_email;
                 document.getElementById("vname").innerHTML = arr[0].v_name;
                 document.getElementById("phn").innerHTML = arr[0].v_contact;
                 document.getElementById("desc").innerHTML = arr[0].v_desc;
@@ -96,26 +98,27 @@
                 document.getElementById("subser").innerHTML = arr[0].v_subservice;
 
                 }
+                
+                
+                function go()
+                {
+                    window.location.href="/slots?email="+email;
+                }
+                
             </script>
 
             <style>
-                h1:hover, h2:hover, h3:hover, h4:hover {
+                H1:hover, H2:hover, H3:hover, H4:hover {
                     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
                     transition: text-shadow 0.3s ease;
                 }
 
-                /*                h1, h2, h3, h4 {
-                                    color: #ffffff;  white text 
-                                    text-shadow: 2px 2px 5px rgba(0, 0, 0.9, 0.8);  dark 3D shadow 
-                                    font-weight: 700;
-                                    margin-bottom: 10px;
-                                }*/
-
-                h1, h2, h3, h4 {
+                H1, H2, H3, H4 {
                     color: #000000; /* solid black text */
                     text-shadow: 2px 2px 4px rgba(150, 150, 150, 0.5); /* soft gray shadow for 3D effect */
                     font-weight: bold;
-                    margin-bottom: 10px;
+/*                    margin-bottom: 3px;*/
+                    margin:4px 0;
                 }
 
 
@@ -251,8 +254,10 @@
                                 </div>
                                 <br>
                                 <div style="">
-                                <pre><i class="fas fa-user"><H1 id="vname" > Name </H1></i>                <i class="fas fa-phone"><H2 id ="phn">Phone No</H2></i>
- <i class="fas fa-envelope"><H3 id ="email">Email</H3></i>                    <i class="fas fa-tools"><H4 id ="subser">Sub-Service</H4></i></pre>
+                                    <H1 id="vname" > <i class="fas fa-user">Name </i></H1>                                    
+                                     <H2 id ="phn">Phone No</H2>
+                                    <H3 id ="email" ><i class="fas fa-envelope">Email</i></H3>                   
+                                    <H4 id ="subser"><i class="fas fa-tools">Sub-Service</i></H4>
                                 </div>
                                 <div class="service-tabs wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
                                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -483,7 +488,7 @@
                                             </ul>
                                         </div>
                                         <div class="book-btn">
-                                            <a href="contact.html">Order Now</a>
+                                            <a href="#" onclick="go()">Order Now</a>
                                         </div>
                                     </div>
                                 </div>

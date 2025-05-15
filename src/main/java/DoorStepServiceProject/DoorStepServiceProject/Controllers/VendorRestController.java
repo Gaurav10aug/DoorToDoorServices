@@ -143,23 +143,43 @@ public class VendorRestController {
         return null;
     }
 
+    //@PostMapping("/Vendorlogin")
+ //   public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
+   //     try {
+     //       ResultSet rs = DBLoader.executeQuery("SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='" + Approved+ "');
+       //     if (rs.next()) {
+         //       int vendorId = rs.getInt("v_id");
+           //     session.setAttribute("vendorId", vendorId);
+                // FIXED: consistent key
+             //   return "success";
+ //           } else {
+   //             return "failed";
+     //       }
+       // } catch (Exception e) {
+         //   e.printStackTrace();
+           // return "Error: " + e.getMessage();
+     //   }
+   // }
+    
     @PostMapping("/Vendorlogin")
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-        try {
-            ResultSet rs = DBLoader.executeQuery("SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "'");
-            if (rs.next()) {
-                int vendorId = rs.getInt("v_id");
-                session.setAttribute("vendorId", vendorId);
-                // FIXED: consistent key
-                return "success";
-            } else {
-                return "failed";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error: " + e.getMessage();
+    try {
+        ResultSet rs = DBLoader.executeQuery(
+            "SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='Approved'"
+        );
+        if (rs.next()) {
+            int vendorId = rs.getInt("v_id");
+            session.setAttribute("vendorId", vendorId);
+            return "success";
+        } else {
+            return "failed";
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Error: " + e.getMessage();
     }
+}
+
 
     @PostMapping("/VendorManagePhotos")
     public String photoDetails(@RequestParam MultipartFile photo, @RequestParam String pdesc, HttpSession session) {

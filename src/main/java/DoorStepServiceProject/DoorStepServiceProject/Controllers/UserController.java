@@ -36,4 +36,16 @@ public class UserController {
         return "SingleVendorDetails"; // Thymeleaf will look in templates/ShowServicesToUsers.html
     }
     
+    @GetMapping("/slots")
+    public String slots()
+    {
+        return"UserViewSlot";
+    }
+    
+    @GetMapping("/payment")
+    public String payment()
+    {
+        return "payment";
+    }
+    
 }

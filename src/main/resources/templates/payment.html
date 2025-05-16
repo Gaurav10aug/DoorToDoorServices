@@ -7,7 +7,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Admin Login</title>
+        <title>Payment</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
 
         <!-- Bootstrap CSS -->
@@ -43,62 +43,62 @@
         <!--payment end-->
 
         <script>
-             const params = new URLSearchParams(window.location.search);
-             const amount = params.get("total");
+            const params = new URLSearchParams(window.location.search);
+            const amount = params.get("total");
             function paymentlogic(total)
             {
 
-                var options = {
-                    "key": "rzp_test_96HeaVmgRvbrfT",
-                    "amount": total + "00",
-                    "name": "Door Step Service",
-                    "description": "",
-                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOmghn1er2yRA0yXfMRmroSSpWEdAGNV5KHg&usqp=CAU",
-                    "handler": function (response) {
+            var options = {
+            "key": "rzp_test_96HeaVmgRvbrfT",
+            "amount": total + "00",
+            "name": "Door Step Service",
+            "description": "",
+            "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOmghn1er2yRA0yXfMRmroSSpWEdAGNV5KHg&usqp=CAU",
+            "handler": function (response) {
 
-                        if (response.razorpay_payment_id == "" || response.razorpay_payment_id == undefined) {
+            if (response.razorpay_payment_id == "" || response.razorpay_payment_id == undefined) {
 
-                            window.location.href = "payment_action?status=failed";
-                            // paymentfail(authormobile,"Payment failed!");
+            window.location.href = "payment_action?status=failed";
+            // paymentfail(authormobile,"Payment failed!");
 
-                            alert("Payment Failed")
+            alert("Payment Failed")
 
-                        } else {
-                            //success
-                            makePayment('online');
-                            //payment success
-                            //call your book payment function here
-                        }
-                    },
-                    "prefill": {
-                        "name": "HealHub ",
-                        "email": ""
-                    },
-                    "notes": {
-                        "address": ""
-                    },
-                    "theme": {
-                        "color": "#F37254"
-                    },
-                    "modal": {
-                        "ondismiss": function () {
-                            $("#statusmodal").modal("show");
-                            document.getElementById("status").innerHTML = "Payment failed ! Try again";
-                        }
-                    }
-                };
+            } else {
+            //success
+            makePayment('online');
+            //payment success
+            //call your book payment function here
+            }
+            },
+            "prefill": {
+            "name": "HealHub ",
+            "email": ""
+            },
+            "notes": {
+            "address": ""
+            },
+            "theme": {
+            "color": "#F37254"
+            },
+            "modal": {
+            "ondismiss": function () {
+            $("#statusmodal").modal("show");
+            document.getElementById("status").innerHTML = "Payment failed ! Try again";
+            }
+            }
+            };
 
 
 
-                var rzp1 = new Razorpay(options);
-                rzp1.on('payment.failed', function (response) {
-                    console.log("a2");
-                    console.log(response.error.code);
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+            console.log("a2");
+            console.log(response.error.code);
 
-                    alert("Payment Failed");
+            alert("Payment Failed");
 
-                });
-                rzp1.open();
+            });
+            rzp1.open();
             }
 
         </script>      
@@ -107,46 +107,46 @@
         <script>
             function online()
             {
-                paymentlogic(amount);
+            paymentlogic(amount);
             }
             function cash()
             {
-                makePayment('cash');
+            makePayment('cash');
             }
             function makePayment(type) {
-                const params = new URLSearchParams(window.location.search);
-                const date = params.get("date");
-                const v_email = params.get("email");
-                const amount = params.get("total");
-                const slots = params.get("slots");
-                const status = "pending";
+            const params = new URLSearchParams(window.location.search);
+            const date = params.get("date");
+            const v_email = params.get("email");
+            const amount = params.get("total");
+            const slots = params.get("slots");
+            const status = "pending";
 
-                const url = `/pay?date=${encodeURIComponent(date)}&vendor_email=${encodeURIComponent(v_email)}&amount=${encodeURIComponent(amount)}&slots=${encodeURIComponent(slots)}&type=${encodeURIComponent(type)}&status=${encodeURIComponent(status)}`;
+            const url = `/pay?date=${encodeURIComponent(date)}&vendor_email=${encodeURIComponent(v_email)}&amount=${encodeURIComponent(amount)}&slots=${encodeURIComponent(slots)}&type=${encodeURIComponent(type)}&status=${encodeURIComponent(status)}`;
 
-                fetch(url)
-                        .then(response => response.text())
-                        .then(ans => {
-                            if (ans.includes("success")) {
-                                Swal.fire(
-                                        'Success!',
-                                        'Your booking and payment were recorded successfully.',
-                                        'success'
-                                        );
-                            } else {
-                                Swal.fire(
-                                        'Error!',
-                                        'Something went wrong: ' + ans,
-                                        'error'
-                                        );
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire(
-                                    'Error!',
-                                    'Request failed: ' + error,
-                                    'error'
-                                    );
-                        });
+            fetch(url)
+            .then(response => response.text())
+            .then(ans => {
+            if (ans.includes("success")) {
+            Swal.fire(
+            'Success!',
+            'Your booking and payment were recorded successfully.',
+            'success'
+            );
+            } else {
+            Swal.fire(
+            'Error!',
+            'Something went wrong: ' + ans,
+            'error'
+            );
+            }
+            })
+            .catch(error => {
+            Swal.fire(
+            'Error!',
+            'Request failed: ' + error,
+            'error'
+            );
+            });
             }
 
         </script>
@@ -269,7 +269,37 @@
         </section>
         <!-- End breadcrumbs section -->
 
-        <!-- Start login-area section -->
+        <br>
+        <br>
+        <section style="padding: 0px 0px; background-color: #f0f0f0; margin-top: 0px;">
+            <div style="max-width: 800px; margin: auto; text-align: center;">
+                <h3 style="margin-bottom: 20px;">Why Choose Our Payment Options?</h3>
+
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0px;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 40px;">🔒</div>
+                        <h4>Secure Payments</h4>
+                        <p>All your transactions are handled with utmost security and care.</p>
+                    </div>
+
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 40px;">💳</div>
+                        <h4>Multiple Modes</h4>
+                        <p>Choose between online payment or cash as per your convenience.</p>
+                    </div>
+
+                    <div style="flex: 1; min-width: 200px;">
+                        <div style="font-size: 40px;">📞</div>
+                        <h4>Support Ready</h4>
+                        <p>If you face any issue, our team is ready to assist you quickly.</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 30px; color: gray;">Your satisfaction and trust is our priority. Thank you for choosing us!</p>
+            </div>
+        </section>
+
+        <!-- Start Payment Area section -->
         <section id="down" class="login-area sec-p">
             <div class="container">
                 <div class="login-form">
@@ -278,7 +308,7 @@
                         <div class="cmn-btn">
                             <input type="button" class="btn btn-info" onclick="online()" value="Online">
                         </div>
-                        <br><!-- comment -->
+                        <br>  
                         <br>
                         <div class="cmn-btn">
                             <input type="button" class="btn btn-info" onclick="cash()" value="Cash">
@@ -288,6 +318,25 @@
             </div>
         </section>
         <!-- End login-area section -->
+
+        <!--        <div class="container" style="margin-top: 50px; max-width: 600px;">
+                    <div class="card p-4 shadow">
+                        <h2 class="text-center mb-4">Select Your Payment Mode</h2>
+        
+                        <div class="mb-3">
+                            <h4>💳 Online Payment</h4>
+                            <p>You can pay using credit/debit cards, UPI, or net banking. Secure and instant payment through our trusted gateway partners.</p>
+                        </div>
+        
+                        <div class="mb-3">
+                            <h4>💵 Offline Payment</h4>
+                            <p>Choose this option if you prefer to pay in cash or via bank transfer. You can complete the payment at our office or through direct deposit.</p>
+                        </div>
+        
+                        <p class="text-muted mt-4">Please select a payment option above to proceed further with your booking.</p>
+                    </div>
+                </div>-->
+
 
         <!-- Start footer section -->
         <footer class="footer-3">

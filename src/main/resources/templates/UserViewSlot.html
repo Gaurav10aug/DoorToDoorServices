@@ -7,7 +7,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>User Login</title>
+        <title>View Slots</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
 
         <!-- Bootstrap CSS -->
@@ -33,6 +33,12 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
         <script>
+
+            window.onload = function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("datepicker").setAttribute("min", today);
+            };
+
             const urlParams = new URLSearchParams(window.location.search);
             const email = urlParams.get('email');
             function go() {

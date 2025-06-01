@@ -31,6 +31,11 @@ public class VendorController {
         return "VendorManagePhotos";
     }
     
+    @GetMapping("/ManageBookings")
+    public String go10(){
+        return "ManageBookings";
+    }
+    
     @GetMapping("/EditVendorDetails")
     public String go9(){
         return "EditDetails";

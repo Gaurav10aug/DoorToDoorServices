@@ -132,7 +132,15 @@
             'Your booking and payment were recorded successfully.',
             'success'
             );
-            } else {
+            setTimeout(() => {
+            fetch('/getUserEmailFromSession')
+            .then(resp => resp.text())
+            .then(userEmail => {
+            window.location.href = `/rating?vendorEmail=${encodeURIComponent(v_email)}&userEmail=${encodeURIComponent(userEmail)}`;
+            });
+            }, 5000);
+            }
+            else {
             Swal.fire(
             'Error!',
             'Something went wrong: ' + ans,

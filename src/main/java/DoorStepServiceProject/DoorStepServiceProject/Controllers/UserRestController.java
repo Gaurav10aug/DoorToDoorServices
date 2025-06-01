@@ -2,6 +2,7 @@ package DoorStepServiceProject.DoorStepServiceProject.Controllers;
 
 import DoorStepServiceProject.DoorStepServiceProject.vmm.DBLoader;
 import java.io.File;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.io.FileOutputStream;
 import DoorStepServiceProject.DoorStepServiceProject.vmm.RDBMS_TO_JSON;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @RestController
 public class UserRestController {
@@ -89,7 +91,7 @@ public class UserRestController {
             return "exception";
         }
     }
-
+    
     @GetMapping("/UserGetAllCities")
     public String getAllCities() {
         String ans = "";
@@ -250,5 +252,51 @@ public class UserRestController {
             return ex.toString();
         }
     }
+    
+    @GetMapping("/userAddReview")
+    public String userAddReview(@RequestParam String vendor_email,@RequestParam int rating,@RequestParam String comment,HttpSession session) {
+    String user_email = (String) session.getAttribute("uemail");
+    System.out.println(user_email);
+    String ans = "";
+
+    try {
+        ResultSet rs = DBLoader.executeQuery("SELECT * FROM review_table");
+        rs.moveToInsertRow();
+        rs.updateString("v_email", vendor_email);  
+        rs.updateString("u_email", user_email);    
+        rs.updateString("comment", comment);
+        rs.updateInt("rating", rating);
+        rs.insertRow();
+        ans = "success";
+    } catch (Exception e) {
+        ans = e.toString();
+    }
+
+    return ans;
+    }
+
+
+    @GetMapping("/userShowRatings")
+    public String userShowRatings(@RequestParam String vendor_email) 
+    {
+        return new RDBMS_TO_JSON().generateJSON("SELECT * FROM review_table WHERE v_email='" + vendor_email + "'");
+
+    }
+
+    @GetMapping("/userShowAverageRatings")
+    public String userShowAverageRatings(@RequestParam String vendor_email) 
+    {
+        return new RDBMS_TO_JSON().generateJSON("SELECT AVG(rating) AS r1 FROM review_table WHERE v_email='" + vendor_email + "'");
+
+    }
+    
+    
+    @GetMapping("/getUserEmailFromSession")
+    public String getUserEmailFromSession(HttpSession session) 
+    {
+    String email = (String) session.getAttribute("uemail");
+    return email != null ? email : "";
+    }
 
 }
+

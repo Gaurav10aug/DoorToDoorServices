@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+
+
+    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:21:50 GMT -->
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ratings & Reviews</title>
+        <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
+
+        <!-- Bootstrap CSS -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap icons CSS -->
+        <link href="assets/css/bootstrap-icons.css" rel="stylesheet">
+        <!-- Fontawesome all CSS -->
+        <link href="assets/css/all.min.css" rel="stylesheet">
+        <!-- Fontawesome CSS -->
+        <link href="assets/css/fontawesome.min.css" rel="stylesheet">
+        <!-- Swiper slider CSS -->
+        <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+        <!-- slick-slide -->
+        <link rel="stylesheet" href="assets/css/slick-theme.css">
+        <link rel="stylesheet" href="assets/css/slick.css">
+        <!-- Nice select CSS -->
+        <link rel="stylesheet" href="assets/css/nice-select.css">
+        <!-- Magnific-popup CSS -->
+        <link rel="stylesheet" href="assets/css/magnific-popup.css">
+        <!-- Animate CSS -->
+        <link rel="stylesheet" href="assets/css/animate.min.css">
+        <!--  Style CSS  -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <!-- Title -->
+
+
+        <style>
+            .img-thumbnail {
+                border: 2px solid black;
+                border-radius: 10px;
+                width: 20px;
+                height: 20px;
+            }
+        </style>
+        <!--        <script>
+                    let selectedRating = 0;
+        
+                    function rate(value) {
+                    selectedRating = value;
+                    updateStars();
+                    sendRatingToServer(value);
+                    }
+        
+                    function updateStars() {
+                    const stars = document.querySelectorAll("#rating img");
+                    stars.forEach((star, index) => {
+                    star.src = index < selectedRating ? "/images/filled_star.png" : "/images/empty_star.png";
+                    });
+                    }
+        
+                    function sendRatingToServer(rating) {
+                    fetch("/rate", {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({rating: rating})
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                    console.log("Server says:", data);
+                    });
+                    }
+                </script>-->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <script>
+            let n = 0;
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get("userEmail");
+            const vendorEmail = urlParams.get("vendorEmail");
+
+            // Put into page elements so existing code can access them
+            document.getElementById("userEmail").innerText = userEmail;
+            document.getElementById("d2").innerText = vendorEmail;
+
+
+            
+
+            function review() {
+            $("#myModal1").modal("show");
+            }
+
+            function fill(obj) {
+            const val = parseInt(obj.id.split("_")[1]);
+            for (let i = 1; i <= 5; i++) {
+            document.getElementById(`rating_${i}`).src = i <= val ? "assets/images/filled_star.png" : "assets/images/empty_star.png";
+
+            }
+            }
+
+            function selected(obj) {
+            n = parseInt(obj.id.split("_")[1]);
+            }
+
+            function unfill(obj) {
+            for (let i = n + 1; i <= 5; i++) {
+            document.getElementById(`rating_${i}`).src = "assets/images/empty_star.png";
+            }
+            }
+
+            function addreview() {
+            const vendor_email = document.getElementById("d2").innerText.trim();
+            const comment = document.getElementById("comment").value;
+
+            if (n === 0) {
+            document.getElementById("label1").style.display = "inline";
+            return;
+            } else {
+            document.getElementById("label1").style.display = "none";
+            }
+
+            const user_email = document.getElementById("userEmail").innerText.trim();
+            const url = `./userAddReview?vendor_email=${vendor_email}&user_email=${user_email}&rating=${n}&comment=${encodeURIComponent(comment)}`;
+
+
+            <!--            const url = `./userAddReview?vendor_email=${vendor_email}&rating=${n}&comment=${encodeURIComponent(comment)}`;-->
+            fetch(url)
+            .then(response => response.text())
+            .then(ans => {
+            alert(ans);
+            userShowRatings();
+            });
+            }
+
+            function userShowRatings() {
+            const vendor_email = document.getElementById("d2").innerText.trim();
+            fetch(`./userShowRatings?vendor_email=${vendor_email}`)
+            .then(response => response.json())
+            .then(mainobj => {
+            const arr = mainobj["ans"];
+            let ren = "";
+
+            arr.forEach(st => {
+            ren += `<div class="row">
+            <div class="col-sm-6" style="text-align: center">
+            ${[...Array(5)].map((_, j) =>
+            `<img class="img-thumbnail"
+            src="/images/${j < st.rating ? 'filled_star' : 'empty_star'}.png">`).join('')}
+            </div>
+            <div class="col-sm-3" style="text-align: center">
+            <div class="card-body">
+            <label><b>Comment:</b><br>${st.comment}</label>
+            </div>
+            </div>
+            <div class="col-sm-3" style="text-align: center">
+            <div class="card-body">
+            <label><b>User Email:</b><br>${st.u_email}</label>
+            </div>
+            </div>
+            </div>`;
+            });
+
+            document.getElementById("showratings").innerHTML = ren;
+            averageRating();
+            });
+            }
+
+            function averageRating() {
+            const vendor_email = document.getElementById("d2").innerText.trim();
+            fetch(`./userShowAverageRatings?vendor_email=${vendor_email}`)
+            .then(response => response.json())
+            .then(mainobj => {
+            const st = mainobj["ans"][0];
+            const r = parseFloat(st.r1);
+            let ren = `<div class="col-sm-12" style="text-align: center"><div class="card-body">`;
+
+            const filledStars = Math.floor(r);
+            const halfStar = r % 1 >= 0.5;
+            const totalStars = filledStars + (halfStar ? 1 : 0);
+
+            for (let j = 0; j < filledStars; j++) {
+            ren += `<img class="img-thumbnail" src="/images/filled_star.png">`;
+            }
+
+            if (halfStar) {
+            ren += `<img class="img-thumbnail" src="/images/empty_star.png">`;
+            }
+
+            for (let j = totalStars; j < 5; j++) {
+            ren += `<img class="img-thumbnail" src="/images/empty_star.png">`;
+            }
+
+            ren += `</div></div>`;
+            document.getElementById("averagerating").innerHTML = ren;
+            });
+            }
+        </script>
+
+
+
+    </head>
+    <body>
+
+        <!--Start preloader area -->
+        <div class="egns-preloader">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-6">
+                        <div class="circle-border">
+                            <div class="moving-circle"></div>
+                            <div class="moving-circle"></div>
+                            <div class="moving-circle"></div>
+                            <svg width="180px" height="150px" viewBox="0 0 187.3 93.7" preserveAspectRatio="xMidYMid meet">
+                            <path stroke="#5BB543" id="outline" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                            <path id="outline-bg" opacity="0.05" fill="none" stroke="#959595" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End preloader area  -->
+
+
+
+
+        <!-- Hidden fields or placeholders -->
+        <span id="d2" style="display: none;"></span> <!-- For vendor_email -->
+        <span id="userEmail" style="display: none;"></span> <!-- For user_email -->
+
+
+        <!-- Start header section -->
+        <header class="header-3 sticky_top">
+            <div class="header-logo">
+                <a href="index3.html"><img src="assets/images/home3/logo.svg" alt=""></a>
+            </div>
+            <div class="main-menu">
+                <nav class="main-nav">
+                    <div class="mobile-menu-logo">
+                        <a href="index3.html"><img src="assets/images/home3/mobile-logo.svg" alt=""></a>
+                        <div class="remove">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+                    </div>
+                    <ul>
+                        <li class="has-child active">
+                            <a href="/UserHome">Home</a>
+                        </li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li class="has-child">
+                            <a href="service.html">Services</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+                                <li><a href="service.html">Services</a></li>
+                                <li><a href="service-details.html">Service Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="blog.html">Blogs</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-child">
+                            <a href="#">Pages</a>
+                            <i class="bi bi-chevron-down"></i>
+                            <ul class="sub-menu">
+                                <li><a href="/UserLogin">User Login</a></li>
+                                <li><a href="/UserSignUp">User Sign Up</a></li>
+                                <li><a href="account.html">My Account</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header-right">
+                <div class="phone">
+                    <div class="icon">
+                        <img src="assets/images/icons/phone-white.svg" alt="">
+                    </div>
+                    <div class="phn-info">
+                        <span>Call Us Now</span>
+                        <a href="tel:9235677891">+923 5677 891</a>
+                    </div>
+                </div>
+                <div class="wishlist">
+                    <a href="account.html"><i class="bi bi-suit-heart"></i></a>
+                </div>
+                <div class="account-btn">
+                    <a href="account.html">My Account</a>
+                </div>
+                <div class="mobile-menu">
+                    <a href="javascript:void(0)" class="cross-btn">
+                        <span class="cross-top"></span>
+                        <span class="cross-middle"></span>
+                        <span class="cross-bottom"></span>
+                    </a>
+                </div>
+            </div>
+        </header>
+        <!-- End header section -->
+
+        <!-- Start hero-area-three section -->
+        <section class="hero-area-three">
+            <div class="container-fluid">
+                <div class="hero-wrapper">
+                    <div class="hero-content">
+                        <span>Fast Response - Quality Works</span>
+                        <h1>Nonstop Services That Make Life Better.</h1>
+                        <div class="find-service">
+                            <div class="location-search">
+                                <div class="location-btn">
+                                    <i><img src="assets/images/icons/location.svg" alt=""></i>
+                                    <select class="loc-select">
+                                        <option selected="">Punjab</option>
+                                        <option value="barisal">Delhi</option>
+                                        <option value="khulna">Mumbai</option>
+                                        <option value="">Hyderabad</option>
+                                        <option value="barisal">Gujarat</option>
+                                        <option value="khulna">Kolkata</option>
+                                    </select>
+                                </div>
+                                <div class="location-form">
+                                    <form action="#" method="post">
+                                        <input type="text" name="location" placeholder="Find Your Services Here">
+                                        <button type="submit"><i class="bi bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="suggest">
+                                <span>Suggest For You:</span>
+                                <ul class="suggest-list">
+                                    <li><a href="service.html">Beauty & Salon</a></li>
+                                    <li><a href="service.html">Shifting</a></li>
+                                    <li><a href="service.html">AC Repair</a></li>
+                                    <li><a href="service.html">Wall-Painting</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End hero-area-three section -->
+        <br>
+
+        <!-- Button to open modal -->
+        <!--        <div class="col-sm-12" style="text-align: center">
+                    <input type="button" class="btn btn-success" value="ADD REVIEW"
+                           style="border-radius: 10px;text-shadow: 2px 2px 5px black;" onclick="review()" />
+                </div>
+        
+                <h2>Average Rating</h2>
+                <div id="averagerating"></div>
+        
+                <h2>All Ratings</h2>
+                <div id="showratings"></div>
+        
+                 Modal for Add Review 
+                <div class="modal" id="myModal1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background: yellowgreen;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" style="color: white;">Add Review</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form1">
+                                    <label class="form-group">Give Ratings..</label>
+                                    <table>
+                                        <tr>
+                                            <td><img id="rating_1" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                            <td><img id="rating_2" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                            <td><img id="rating_3" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                            <td><img id="rating_4" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                            <td><img id="rating_5" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                        </tr>
+                                    </table>
+                                    <br>
+                                    <label>Write Comment:</label>
+                                    <input type="text" id="comment" class="form-group" style="border-radius: 20px;" />
+                                    <input type="button" value="Submit" class="btn btn-primary" onclick="addreview()" />
+                                    <label style="display: none; color: tomato;" id="label1">Please Select Any Rating</label>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="background: yellowgreen;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+
+
+        <!-- Trigger button for modal -->
+        <button class="btn btn-success" onclick="review()">Leave a Review</button>
+
+        <!-- Vendor email stored here -->
+        <div id="d2" style="display: none;">vendor@example.com</div>
+
+        <!-- Review Modal -->
+        <div class="modal" id="myModal1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: yellowgreen;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color: white;">Add Review</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form1">
+                            <label class="form-group">Give Ratings:</label>
+                            <table>
+                                <tr>
+                                    <td><img id="rating_1" src="assets/images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                    <td><img id="rating_2" src="assets/images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                    <td><img id="rating_3" src="assets/images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                    <td><img id="rating_4" src="assets/images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                    <td><img id="rating_5" src="assets/images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
+                                </tr>
+                            </table>
+                            <br>
+                            <label>Write Comment:</label>
+                            <input type="text" id="comment" class="form-control" style="border-radius: 20px;" />
+                            <br>
+                            <input type="button" value="Submit" class="btn btn-primary" onclick="addreview()" />
+                            <label style="display: none; color: tomato;" id="label1">Please Select Any Rating</label>
+                        </form>
+                    </div>
+                    <div class="modal-footer" style="background: yellowgreen;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section to show ratings -->
+        <div id="showratings"></div>
+
+        <!-- Section to show average -->
+        <div id="averagerating"></div>
+
+        <!-- Start creative-services section -->
+        <section id="category" class="categorys sec-p">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <div class="sec-title layout-3">
+                            <h1>Services we are Improving</h1>
+                            <h2>Category</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper category-slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb">
+                                    <img src="assets/images/icons/category-icon-1.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Home Clean</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb orange">
+                                    <img src="assets/images/icons/category-icon-2.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Gadget</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="600ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb green">
+                                    <img src="assets/images/icons/category-icon-3.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Security</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="800ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb yellow">
+                                    <img src="assets/images/icons/category-icon-1.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Emergency</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="1000ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb cyan">
+                                    <img src="assets/images/icons/category-icon-4.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Car & Care</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="1200ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb pink">
+                                    <img src="assets/images/icons/category-icon-5.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Plumbing</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-navigations">
+                        <div class="swiper-button-prev-c"><i class="bi bi-arrow-left"></i></div>
+                        <div class="swiper-button-next-c"><i class="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End creative-services section -->
+
+
+        <!-- Start footer section -->
+        <footer class="footer-2">
+            <img src="assets/images/footer-left-shape.png" alt="" class="line-shape">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="row gy-5">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="footer-widget with-logo">
+                                <div class="footer-logo">
+                                    <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
+                                </div>
+                                <div class="request-btn">
+                                    <a href="contact.html">Request a Service</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Explore On</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="/UserHome">Home</a></li>
+                                    <li><a href="blog.html">Blog Grid</a></li>
+                                    <li><a href="#">Help & Support</a></li>
+                                    <li><a href="service-details.html">Services Details</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="#">Terms of use</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-2">
+                            <div class="footer-widget">
+                                <h4>Categories</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="service.html">Electronics</a></li>
+                                    <li><a href="service.html">Driver Service</a></li>
+                                    <li><a href="service.html">Electric & Plumbing</a></li>
+                                    <li><a href="service.html">Gadgets Repair</a></li>
+                                    <li><a href="service.html">Security Service</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="footer-widget">
+                                <h4>Contacts</h4>
+                                <div class="information">
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="tel:9235677891">+923 5677 891</a>
+                                            <a href="tel:9235677891">+9235 677 891</a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="far fa-envelope"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="desc">
+                                            <p>168/170, Avenue 01, Amritsar, Punjab, India</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="copy-right">
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="footer-social-media">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="https://www.pinterest.com/"><i class="fab fa-pinterest-p"></i></a></li>
+                                    <li><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- End footer section -->
+
+        <!--  Main jQuery  -->
+        <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.6.0.min.js"></script>
+        <!-- Popper and Bootstrap JS -->
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <!-- Swiper slider JS -->
+        <script src="assets/js/swiper-bundle.min.js"></script>
+        <!-- Slick slider JS -->
+        <script src="assets/js/slick.js"></script>
+        <!-- Nice select JS -->
+        <script src="assets/js/jquery.nice-select.min.js"></script>
+        <!-- Waypoints JS -->
+        <script src="assets/js/waypoints.min.js"></script>
+        <!-- Counterup JS -->
+        <script src="assets/js/jquery.counterup.min.js"></script>
+        <!-- Magnific-popup  JS -->
+        <script src="assets/js/jquery.magnific-popup.min.js"></script>
+        <!-- Wow JS -->
+        <script src="assets/js/wow.min.js"></script>
+        <script src="assets/js/anime.min.js"></script>
+        <!-- Custom JS -->
+        <script src="assets/js/custom.js"></script>
+
+    </body>
+
+
+    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:22:09 GMT -->
+</html>

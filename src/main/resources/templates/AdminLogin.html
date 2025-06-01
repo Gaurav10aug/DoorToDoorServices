@@ -32,178 +32,189 @@
         <!--  Style CSS  -->
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script>
             function adminlogincreds() {
 
-                var email = document.getElementById("email").value;
-                var pass = document.getElementById("password").value;
+            var email = document.getElementById("email").value;
+            var pass = document.getElementById("password").value;
 
-                var formdata = new FormData();
-                formdata.append("email", email);
-                formdata.append("password", pass);
-                fetch("/Adminlogin", {method: "POST", body: formdata})
-                        .then(response => response.text())
-                        .then(ans => renderHTML(ans));
+            if (!email || !pass) {
+            Swal.fire({
+            icon: 'warning',
+            title: 'Missing Fields',
+            text: 'Please fill all the fields.'
+            });
+            return;
             }
-            function renderHTML(ans) {
-                console.log(ans);
-                if (ans === "success") {
-                    alert("Success");
-                    window.location.href = "/AdminHome";
-                }
-                else
-                {
-                    alert("Login Failed");
-                }
 
+            var formdata = new FormData();
+            formdata.append("email", email);
+            formdata.append("password", pass);
+            fetch("/Adminlogin", {method: "POST", body: formdata})
+            .then(response => response.text())
+            .then(ans => renderHTML(ans));
+            }
+
+            function renderHTML(ans) {
+            console.log(ans);
+            if (ans === "success") {
+            alert("Success");
+            window.location.href = "/AdminHome";
+            }
+            else
+            {
+            alert("Login Failed");
+            }
             }
         </script>
 
-    </head>
-    <body>
+</head>
+<body>
 
-        <!--Start preloader area -->
-        <div class="egns-preloader">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-6">
-                        <div class="circle-border">
-                            <div class="moving-circle"></div>
-                            <div class="moving-circle"></div>
-                            <div class="moving-circle"></div>
-                            <svg width="180px" height="150px" viewBox="0 0 187.3 93.7" preserveAspectRatio="xMidYMid meet">
-                            <path stroke="#5BB543" id="outline" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
-                            <path id="outline-bg" opacity="0.05" fill="none" stroke="#959595" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
-                            </svg>
+    <!--Start preloader area -->
+    <div class="egns-preloader">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-6">
+                    <div class="circle-border">
+                        <div class="moving-circle"></div>
+                        <div class="moving-circle"></div>
+                        <div class="moving-circle"></div>
+                        <svg width="180px" height="150px" viewBox="0 0 187.3 93.7" preserveAspectRatio="xMidYMid meet">
+                        <path stroke="#5BB543" id="outline" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                        <path id="outline-bg" opacity="0.05" fill="none" stroke="#959595" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End preloader area  -->
+
+    <!-- Start header section -->
+    <header class="header-2 sticky_top">
+        <div class="header-logo">
+            <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+        </div>
+        <div class="main-menu">
+            <nav class="main-nav">
+                <div class="mobile-menu-logo">
+                    <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                    <div class="remove">
+                        <i class="bi bi-plus-lg"></i>
+                    </div>
+                </div>
+                <ul>
+                    <li class="has-child active">
+                        <a href="/AdminLogin">Home</a>
+                        <i class="bi bi-chevron-down"></i>
+                        <ul class="sub-menu">
+
+
+                        </ul>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li class="has-child">
+                        <a href="service.html">Services</a>
+                        <i class="bi bi-chevron-down"></i>
+                        <ul class="sub-menu">
+                            <li><a href="service.html">Services</a></li>
+                            <li><a href="service-details.html">Service Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-child">
+                        <a href="blog.html">Blogs</a>
+                        <i class="bi bi-chevron-down"></i>
+                        <ul class="sub-menu">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="blog-details.html">Blog Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-child">
+                        <a href="#">Pages</a>
+                        <i class="bi bi-chevron-down"></i>
+                        <ul class="sub-menu">
+                            <li><a href="/AdminLogin">Admin Login</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="phone">
+                <div class="icon">
+                    <img src="assets/images/icons/phone.svg" alt="">
+                </div>
+                <div class="phn-info">
+                    <span>Call Us Now</span>
+                    <a href="tel:9235677891">+923 5677 891</a>
+                </div>
+            </div>
+            <div class="wishlist">
+                <a href="account.html"><i class="bi bi-suit-heart"></i></a>
+            </div>
+            <div class="account-btn">
+                <a href="account.html">My Account</a>
+            </div>
+            <div class="mobile-menu">
+                <a href="javascript:void(0)" class="cross-btn">
+                    <span class="cross-top"></span>
+                    <span class="cross-middle"></span>
+                    <span class="cross-bottom"></span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- End header section -->
+
+    <!-- Start breadcrumbs section -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrapper">
+                        <h2>Admin Login</h2>
+                        <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
+                        <div class="arrow-down">
+                            <a href="#down"><i class="bi bi-chevron-down"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--End preloader area  -->
+    </section>
+    <!-- End breadcrumbs section -->
 
-        <!-- Start header section -->
-        <header class="header-2 sticky_top">
-            <div class="header-logo">
-                <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
-            </div>
-            <div class="main-menu">
-                <nav class="main-nav">
-                    <div class="mobile-menu-logo">
-                        <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
-                        <div class="remove">
-                            <i class="bi bi-plus-lg"></i>
-                        </div>
+    <!-- Start login-area section -->
+    <section id="down" class="login-area sec-p">
+        <div class="container">
+            <div class="login-form">
+                <h3>Admin Login</h3>
+                <form>
+                    <label for="email">Email*
+                        <input type="email"  id="email" placeholder="Your Email Here">
+                    </label>
+                    <label for="password">Password*
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                        <input type="password"  id="password" placeholder="Type Your Password">
+                    </label>
+                    <div class="terms-forgot">
+                        <p><input type="checkbox" name="agree">I agree to the <a href="#">Terms & Policy</a></p>
+<!--                        <a href="#">Forgot Your Password</a>-->
                     </div>
-                    <ul>
-                        <li class="has-child active">
-                            <a href="/AdminLogin">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                
-                                
-                            </ul>
-                        </li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li class="has-child">
-                            <a href="service.html">Services</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="service.html">Services</a></li>
-                                <li><a href="service-details.html">Service Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="blog.html">Blogs</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-child">
-                            <a href="#">Pages</a>
-                            <i class="bi bi-chevron-down"></i>
-                            <ul class="sub-menu">
-                                <li><a href="/AdminLogin">Admin Login</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="header-right">
-                <div class="phone">
-                    <div class="icon">
-                        <img src="assets/images/icons/phone.svg" alt="">
-                    </div>
-                    <div class="phn-info">
-                        <span>Call Us Now</span>
-                        <a href="tel:9235677891">+923 5677 891</a>
-                    </div>
-                </div>
-                <div class="wishlist">
-                    <a href="account.html"><i class="bi bi-suit-heart"></i></a>
-                </div>
-                <div class="account-btn">
-                    <a href="account.html">My Account</a>
-                </div>
-                <div class="mobile-menu">
-                    <a href="javascript:void(0)" class="cross-btn">
-                        <span class="cross-top"></span>
-                        <span class="cross-middle"></span>
-                        <span class="cross-bottom"></span>
-                    </a>
-                </div>
-            </div>
-        </header>
-        <!-- End header section -->
-
-        <!-- Start breadcrumbs section -->
-        <section class="breadcrumbs">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-wrapper">
-                            <h2>Admin Login</h2>
-                            <span><a href="AdminLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
-                            <div class="arrow-down">
-                                <a href="#down"><i class="bi bi-chevron-down"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End breadcrumbs section -->
-
-        <!-- Start login-area section -->
-        <section id="down" class="login-area sec-p">
-            <div class="container">
-                <div class="login-form">
-                    <h3>Admin Login</h3>
-                    <form>
-                        <label for="email">Email*
-                            <input type="email"  id="email" placeholder="Your Email Here">
-                        </label>
-                        <label for="password">Password*
-                            <i class="bi bi-eye-slash" id="togglePassword"></i>
-                            <input type="password"  id="password" placeholder="Type Your Password">
-                        </label>
-                        <div class="terms-forgot">
-                            <p><input type="checkbox" name="agree">I agree to the <a href="#">Terms & Policy</a></p>
-                            <a href="#">Forgot Your Password</a>
-                        </div>
-                        <div class="cmn-btn">
+                    <div class="cmn-btn">
                         <input type="button" class="btn btn-info" onclick="adminlogincreds()" value="Login">
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-        </section>
-        <!-- End login-area section -->
+        </div>
+    </section>
+    <!-- End login-area section -->
 
-        <!-- Start footer section -->
+    <!-- Start footer section -->
     <footer class="footer-3">
         <div class="container-fluid p-0">
             <div class="footer-content">
@@ -308,13 +319,13 @@
     <!-- Magnific-popup  JS -->
     <script src="assets/js/jquery.magnific-popup.min.js"></script>
     <!-- Wow JS -->
-        <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
     <script src="assets/js/anime.min.js"></script>
     <!-- Custom JS -->
     <script src="assets/js/custom.js"></script>
 
-    </body>
+</body>
 
 
-    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:22:09 GMT -->
+<!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:22:09 GMT -->
 </html>

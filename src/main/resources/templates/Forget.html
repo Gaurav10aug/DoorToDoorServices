@@ -7,7 +7,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>User Login</title>
+        <title>Forget Password</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
 
         <!-- Bootstrap CSS -->
@@ -32,48 +32,37 @@
         <!--  Style CSS  -->
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
-        <style>
-
-
-        </style>
-
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            function userlogincreds() {
+            let otp;
 
-            var email = document.getElementById("email").value;
-            var pass = document.getElementById("password").value;
+            function forgot() {
+            const email = document.getElementById("email").value;
+            otp = Math.floor(1000 + Math.random() * 9000);
 
-            if (!email || !pass) {
-            Swal.fire({
-            icon: 'warning',
-            title: 'Missing Fields',
-            text: 'Please fill all the fields.'
-            });
+            if (!email) {
+            alert("Please enter email");
             return;
             }
 
-            var formdata = new FormData();
-            formdata.append("email", email);
-            formdata.append("password", pass);
-            fetch("/Userlogin", {method: "POST", body: formdata})
-            .then(response => response.text())
-            .then(ans => renderHTML(ans));
-            }
-
-            function renderHTML(ans) {
-            console.log(ans);
+            fetch(`/forgot?email=${email}&otp=${otp}`)
+            .then(res => res.text())
+            .then(ans => {
             if (ans === "success") {
-            alert("Success");
-            window.location.href = "/UserHome";
-            } else 
-            {
-            alert("Login Failed");
+            const enteredOtp = prompt("Enter OTP sent to your email:");
+            if (enteredOtp == otp) {
+            fetch(`/otpverify?email=${email}`)
+            .then(res => res.text())
+            .then(alert);
+            } else {
+            alert("Incorrect OTP");
             }
+            } else {
+            alert("Email not registered.");
+            }
+            });
             }
         </script>
-
 
     </head>
     <body>
@@ -99,21 +88,21 @@
         <!--End preloader area  -->
 
         <!-- Start header section -->
-        <header class="header-2 sticky_top">
+        <header class="header-3 sticky_top">
             <div class="header-logo">
-                <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                <a href="index3.html"><img src="assets/images/home3/logo.svg" alt=""></a>
             </div>
             <div class="main-menu">
                 <nav class="main-nav">
                     <div class="mobile-menu-logo">
-                        <a href="index.html"><img src="assets/images/home2/logo.svg" alt=""></a>
+                        <a href="index3.html"><img src="assets/images/home3/mobile-logo.svg" alt=""></a>
                         <div class="remove">
                             <i class="bi bi-plus-lg"></i>
                         </div>
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="/UserLogin">Home</a>
+                            <a href="/UserHome">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -137,24 +126,22 @@
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
                                 <li><a href="/UserLogin">User Login</a></li>
-                                <li><a href="/UserSignup">User Sign Up</a></li>
+                                <li><a href="/UserSignUp">User Sign Up</a></li>
+                                <li><a href="account.html">My Account</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
-                    <div class="my-account">
-                        <a href="account.html">My Account</a>
-                    </div>
                 </nav>
             </div>
             <div class="header-right">
                 <div class="phone">
                     <div class="icon">
-                        <img src="assets/images/icons/phone.svg" alt="">
+                        <img src="assets/images/icons/phone-white.svg" alt="">
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+923 5677 891</a>
+                        <a href="tel:9235677891">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -174,62 +161,138 @@
         </header>
         <!-- End header section -->
 
-        <!-- Start breadcrumbs section -->
-        <section class="breadcrumbs" >
+        <!-- Start hero-area-three section -->
+        <section class="hero-area-three">
+            <div class="container-fluid">
+                <div class="hero-wrapper">
+                    <div class="hero-content">
+                        <span>Fast Response - Quality Works</span>
+                        <h1>Nonstop Services That Make Life Better.</h1>
+                        <div class="find-service">
+                            <div class="location-search">
+                                <div class="location-btn">
+                                    <i><img src="assets/images/icons/location.svg" alt=""></i>
+                                    <select class="loc-select">
+                                        <option selected="">Punjab</option>
+                                        <option value="barisal">Delhi</option>
+                                        <option value="khulna">Mumbai</option>
+                                        <option value="">Hyderabad</option>
+                                        <option value="barisal">Gujarat</option>
+                                        <option value="khulna">Kolkata</option>
+                                    </select>
+                                </div>
+                                <div class="location-form">
+                                    <form action="#" method="post">
+                                        <input type="text" name="location" placeholder="Find Your Services Here">
+                                        <button type="submit"><i class="bi bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="suggest">
+                                <span>Suggest For You:</span>
+                                <ul class="suggest-list">
+                                    <li><a href="service.html">Beauty & Salon</a></li>
+                                    <li><a href="service.html">Shifting</a></li>
+                                    <li><a href="service.html">AC Repair</a></li>
+                                    <li><a href="service.html">Wall-Painting</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End hero-area-three section -->
+        <br>
+
+        <h2>Forgot Password</h2>
+        <input type="email" id="email" placeholder="Enter your email" />
+        <button onclick="forgot()">Send OTP</button>
+
+
+        <!-- Start creative-services section -->
+        <section id="category" class="categorys sec-p">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-wrapper">
-                            <h2 >User Login</h2>
-                            <span><a href="/UserLogin">Home</a><i class="bi bi-chevron-right"></i>User login</span>
-                            <div class="arrow-down">
-                                <a href="#down"><i class="bi bi-chevron-down"></i></a>
+                    <div class="col-12 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <div class="sec-title layout-3">
+                            <h1>Services we are Improving</h1>
+                            <h2>Category</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper category-slider">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb">
+                                    <img src="assets/images/icons/category-icon-1.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Home Clean</a></h4>
+                                </div>
                             </div>
                         </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb orange">
+                                    <img src="assets/images/icons/category-icon-2.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Gadget</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="600ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb green">
+                                    <img src="assets/images/icons/category-icon-3.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Security</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="800ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb yellow">
+                                    <img src="assets/images/icons/category-icon-1.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Emergency</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="1000ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb cyan">
+                                    <img src="assets/images/icons/category-icon-4.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Car & Care</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide wow animate fadeInLeft" data-wow-delay="1200ms" data-wow-duration="1500ms">
+                            <div class="category-slide">
+                                <div class="thumb pink">
+                                    <img src="assets/images/icons/category-icon-5.png" alt="">
+                                </div>
+                                <div class="category-inner">
+                                    <h4><a href="service-details.html">Plumbing</a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-navigations">
+                        <div class="swiper-button-prev-c"><i class="bi bi-arrow-left"></i></div>
+                        <div class="swiper-button-next-c"><i class="bi bi-arrow-right"></i></div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- End breadcrumbs section -->
+        <!-- End creative-services section -->
 
-        <!-- Start login-area section -->
-        <section id="down" class="login-area sec-p">
-            <div class="container">
-                <div class="col-md-10">
-                    <div class="login-form">
-                        <h3 style="item-align:center">User Login</h3>
-                        <form style="item-align:center" >
-                            <label for="email">Email*
-                                <input type="email" id="email" placeholder="Your Email Here">
-                            </label>
-
-                            <label for="password">Password*
-                                <i class="bi bi-eye-slash" id="togglePassword"></i>
-                                <input type="password" id="password" placeholder="Type Your Password">
-                            </label>
-
-                            <div class="terms-forgot">
-                                <p><input type="checkbox" name="agree">I agree to the <a href="#">Terms & Policy</a></p>
-                                <a href="/Forget">Forgot Your Password</a>
-                            </div>
-
-                            <div class="cmn-btn">
-                                <input type="button" class="btn btn-info" onclick="userlogincreds()" value="Login">
-                            </div>
-                        </form>
-                        <div class="other-signup">
-                            <h4>or Sign up WITH</h4>
-                            <div class="others-account">
-                                <a href="https://www.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
-                                <a href="https://www.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
-                            </div>
-                        </div>
-                        <p>By clicking the "Sign up" button, you create a User account, and you agree to Our Policies <a href="#">Terms & Conditions</a> & <a href="#">Privacy Policy.</a></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End login-area section -->
 
         <!-- Start footer section -->
         <footer class="footer-2">
@@ -251,7 +314,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="/UserLogin">Home</a></li>
+                                    <li><a href="/UserHome">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -281,8 +344,8 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+923 5677 891</a>
-                                            <a href="tel:01761111555">+880 176 1111 555</a>
+                                            <a href="tel:9235677891">+923 5677 891</a>
+                                            <a href="tel:9235677891">+9235 677 891</a>
                                         </div>
                                     </div>
                                     <div class="info">
@@ -311,7 +374,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="copy-right">
-                                <span>Copyright 2022 Serve | Design By DoorStep Branch</span>
+                                <span>Copyright 2022 Serve | Design By DoorStep Branch </span>
                             </div>
                         </div>
                         <div class="col-lg-6">

@@ -144,42 +144,60 @@ public class VendorRestController {
     }
 
     //@PostMapping("/Vendorlogin")
- //   public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-   //     try {
-     //       ResultSet rs = DBLoader.executeQuery("SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='" + Approved+ "');
-       //     if (rs.next()) {
-         //       int vendorId = rs.getInt("v_id");
-           //     session.setAttribute("vendorId", vendorId);
-                // FIXED: consistent key
-             //   return "success";
- //           } else {
-   //             return "failed";
-     //       }
-       // } catch (Exception e) {
-         //   e.printStackTrace();
-           // return "Error: " + e.getMessage();
-     //   }
-   // }
-    
+    //   public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
+    //     try {
+    //       ResultSet rs = DBLoader.executeQuery("SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='" + Approved+ "');
+    //     if (rs.next()) {
+    //       int vendorId = rs.getInt("v_id");
+    //     session.setAttribute("vendorId", vendorId);
+    // FIXED: consistent key
+    //   return "success";
+    //           } else {
+    //             return "failed";
+    //       }
+    // } catch (Exception e) {
+    //   e.printStackTrace();
+    // return "Error: " + e.getMessage();
+    //   }
+    // }
+//    @PostMapping("/Vendorlogin")
+//    public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
+//        try {
+//            ResultSet rs = DBLoader.executeQuery(
+//                    "SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='Approved'"
+//            );
+//            if (rs.next()) {
+//                session.setAttribute("vemail", email);
+//                int vendorId = rs.getInt("v_id");
+//                session.setAttribute("vendorId", vendorId);
+//                return "success";
+//            } else {
+//                return "failed";
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "Error: " + e.getMessage();
+//        }
+//    }
     @PostMapping("/Vendorlogin")
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-    try {
-        ResultSet rs = DBLoader.executeQuery(
-            "SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='Approved'"
-        );
-        if (rs.next()) {
-            int vendorId = rs.getInt("v_id");
-            session.setAttribute("vendorId", vendorId);
-            return "success";
-        } else {
-            return "failed";
+        try {
+            ResultSet rs = DBLoader.executeQuery(
+                    "SELECT * FROM vendor WHERE v_email='" + email + "' AND v_pass='" + password + "' AND v_status='Approved'"
+            );
+            if (rs.next()) {
+                int vendorId = rs.getInt("v_id");
+                session.setAttribute("vendorId", vendorId);
+                session.setAttribute("vemail", email); // ✅ Add this line
+                return "success";
+            } else {
+                return "failed";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-        return "Error: " + e.getMessage();
     }
-}
-
 
     @PostMapping("/VendorManagePhotos")
     public String photoDetails(@RequestParam MultipartFile photo, @RequestParam String pdesc, HttpSession session) {
@@ -219,11 +237,10 @@ public class VendorRestController {
             ResultSet rs = DBLoader.executeQuery("select * from managephotos");
             ans += "<div style='display:flex; flex-wrap:wrap; gap:20px;'>";
             while (rs.next()) {
-               String p_id = rs.getString("p_id");
+                String p_id = rs.getString("p_id");
                 String photo = rs.getString("photo");
                 String photo_desc = rs.getString("p_desc");
 
-                
             }
             ans += "</div>";
         } catch (Exception e) {
@@ -231,7 +248,7 @@ public class VendorRestController {
         }
         return ans;
     }
-    
+
     @GetMapping("/DeletePhoto")
     public String deletePhoto(@RequestParam int p_id) {
         try {
@@ -247,7 +264,7 @@ public class VendorRestController {
             return "failure";
         }
     }
-           
+
     @PostMapping("/getEditData")
     public String getEditData(HttpSession session) {
         int v_id = (int) session.getAttribute("vendorId");
@@ -259,8 +276,8 @@ public class VendorRestController {
 
         return ans;
     }
-    
-@PostMapping("/VendorUpdateDetails")
+
+    @PostMapping("/VendorUpdateDetails")
     public String updateVendor(HttpSession session,
             @RequestParam String vname,
             @RequestParam String vservice,
@@ -300,6 +317,77 @@ public class VendorRestController {
         } catch (Exception ex) {
             ex.printStackTrace();
             return "Error: " + ex.getMessage();
+        }
+    }
+
+    @PostMapping("/showBookings")
+    public String showBookings(HttpSession session) {
+        try {
+            String vemail = (String) session.getAttribute("vemail");
+            if (vemail == null) {
+                return "{\"ans\":[]}";
+            }
+            String ans = new RDBMS_TO_JSON().generateJSON(
+                    "SELECT u.u_name, u.u_address, u.u_contact, u.u_email, "
+                    + "b.booking_id, b.date, b.vendor_email, b.total_price, b.payment_type, b.status "
+                    + "FROM booking b "
+                    + "JOIN user u ON b.user_email = u.u_email "
+                    + "WHERE b.vendor_email = '" + vemail + "'"
+            );
+            return ans;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "exception";
+        }
+    }
+
+    @PostMapping("/approveBooking")
+    public String approveBooking(@RequestParam String bid) {
+        try {
+            String sql = "select * from booking where booking_id = " + bid + " ";
+            ResultSet rs = DBLoader.executeQuery(sql);
+            if (rs.next()) {
+                rs.updateString("status", "approved");
+                rs.updateRow();
+
+                return "success";
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "exception";
+        }
+        return null;
+    }
+
+    @PostMapping("/blockBooking")
+    public String blockBooking(@RequestParam String bid) {
+        try {
+            String sql = "select * from booking where booking_id = " + bid + " ";
+            ResultSet rs = DBLoader.executeQuery(sql);
+            if (rs.next()) {
+                rs.updateString("status", "blocked");
+                rs.updateRow();
+
+                return "success";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "exception";
+        }
+        return null;
+    }
+
+    @PostMapping("/showSlots")
+    public String showSlots(@RequestParam String bid, HttpSession session) {
+        try {
+            String ans = new RDBMS_TO_JSON().generateJSON(
+                    "SELECT * FROM booking_detail WHERE bid = '" + bid + "'"
+            );
+            return ans;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "exception";
         }
     }
 }

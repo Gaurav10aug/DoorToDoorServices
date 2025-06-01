@@ -32,11 +32,24 @@
         <!--  Style CSS  -->
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script>
             function Vendorlogincreds() {
 
             var email = document.getElementById("email").value;
             var pass = document.getElementById("password").value;
+
+            if (!email || !pass) {
+            Swal.fire({
+            icon: 'warning',
+            title: 'Missing Fields',
+            text: 'Please fill all the fields.'
+            });
+            return;
+            }
 
             var formdata = new FormData();
             formdata.append("email", email);
@@ -45,6 +58,7 @@
             .then(response => response.text())
             .then(ans => renderHTML(ans));
             }
+
             function renderHTML(ans) {
             console.log(ans);
             if (ans.startsWith("success")) {
@@ -56,9 +70,9 @@
             {
             alert("Sorry Yor Application was not Approved By Admin");
             }
-
             }
         </script>
+
 
     </head>
     <body>

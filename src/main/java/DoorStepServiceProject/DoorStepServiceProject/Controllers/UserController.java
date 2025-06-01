@@ -1,6 +1,7 @@
 package DoorStepServiceProject.DoorStepServiceProject.Controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -46,6 +47,18 @@ public class UserController {
     public String payment()
     {
         return "payment";
+    }
+    
+    @GetMapping("/rating")
+    public String rating()
+    {
+        return "rating";
+    }
+    
+    @GetMapping("/Forget")
+    public String forget()
+    {
+        return "Forget";
     }
     
 }

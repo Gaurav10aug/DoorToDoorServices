@@ -41,37 +41,61 @@
 
         <script>
             function userlogincreds() {
+                var email = document.getElementById("email").value;
+                var pass = document.getElementById("password").value;
+                var termsChecked = document.querySelector('input[name="agree"]').checked;
 
-            var email = document.getElementById("email").value;
-            var pass = document.getElementById("password").value;
+                // Validate missing fields
+                if (!email || !pass) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Fields',
+                        text: 'Please fill all the fields.'
+                    });
+                    return;
+                }
 
-            if (!email || !pass) {
-            Swal.fire({
-            icon: 'warning',
-            title: 'Missing Fields',
-            text: 'Please fill all the fields.'
-            });
-            return;
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Email',
+                        text: 'Please enter a valid email address.'
+                    });
+                    return;
+                }
+
+                // Check if Terms checkbox is ticked
+                if (!termsChecked) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Terms Not Accepted',
+                        text: 'You must agree to the Terms & Policy before logging in.'
+                    });
+                    return;
+                }
+
+                // If all checks pass, proceed with login
+                var formdata = new FormData();
+                formdata.append("email", email);
+                formdata.append("password", pass);
+                fetch("/Userlogin", {method: "POST", body: formdata})
+                        .then(response => response.text())
+                        .then(ans => renderHTML(ans));
+
+                function renderHTML(ans) {
+                    console.log(ans);
+                    if (ans === "success") {
+                        alert("Login Success");
+                        window.location.href = "/UserHome";
+                    } else
+                    {
+                        alert("Login Failed");
+                    }
+                }
             }
 
-            var formdata = new FormData();
-            formdata.append("email", email);
-            formdata.append("password", pass);
-            fetch("/Userlogin", {method: "POST", body: formdata})
-            .then(response => response.text())
-            .then(ans => renderHTML(ans));
-            }
-
-            function renderHTML(ans) {
-            console.log(ans);
-            if (ans === "success") {
-            alert("Success");
-            window.location.href = "/UserHome";
-            } else 
-            {
-            alert("Login Failed");
-            }
-            }
         </script>
 
 

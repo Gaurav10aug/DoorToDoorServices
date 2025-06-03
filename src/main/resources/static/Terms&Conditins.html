@@ -2,14 +2,13 @@
 <html lang="en">
 
 
-    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:21:50 GMT -->
+    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:23:18 GMT -->
     <head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vendor Login</title>
+        <title>About Us</title>
         <link rel="icon" href="assets/images/faviconS.png" type="image/gif" sizes="20x20">
-
         <!-- Bootstrap CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap icons CSS -->
@@ -33,68 +32,8 @@
         <link rel="stylesheet" href="assets/css/style.css">
         <!-- Title -->
 
-
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script>
-            function Vendorlogincreds() {
-
-            var email = document.getElementById("email").value;
-            var pass = document.getElementById("password").value;
-            var termsChecked = document.querySelector('input[name="agree"]').checked;
-            
-            if (!email || !pass) {
-            Swal.fire({
-            icon: 'warning',
-            title: 'Missing Fields',
-            text: 'Please fill all the fields.'
-            });
-            return;
-            }
-            
-             if (!termsChecked) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Terms Not Accepted',
-                        text: 'You must agree to the Terms & Policy before logging in.'
-                    });
-                    return;
-                }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Invalid Email',
-                        text: 'Please enter a valid email address.'
-                    });
-                    return;
-                }
-
-            var formdata = new FormData();
-            formdata.append("email", email);
-            formdata.append("password", pass);
-            fetch("/Vendorlogin", {method: "POST", body: formdata})
-            .then(response => response.text())
-            .then(ans => renderHTML(ans));
-            }
-
-            function renderHTML(ans) {
-            console.log(ans);
-            if (ans.startsWith("success")) {
-            alert("Login Success");
-            window.location.href = "/VendorHome";
-            alert("YAYYY!!!!!!!!!!!!!! Your Application has been approved by Admin");
-            }
-            else
-            {
-            alert("Sorry Yor Application was not Approved By Admin");
-            }
-            }
-        </script>
-
-
     </head>
+
     <body>
 
         <!--Start preloader area -->
@@ -132,9 +71,7 @@
                     </div>
                     <ul>
                         <li class="has-child active">
-                            <a href="/VendorLogin">Home</a>
-                            <i class="bi bi-chevron-down"></i>
-
+                            <a href="/UserHome">Home</a>
                         </li>
                         <li><a href="about.html">About Us</a></li>
                         <li class="has-child">
@@ -149,16 +86,18 @@
                             <a href="blog.html">Blogs</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="blog.html">Blog</a></li>                            
                                 <li><a href="blog-details.html">Blog Details</a></li>
+
                             </ul>
                         </li>
                         <li class="has-child">
                             <a href="#">Pages</a>
                             <i class="bi bi-chevron-down"></i>
                             <ul class="sub-menu">
-                                <li><a href="/VendorLogin">Vendor Login</a></li>
-                                <li><a href="/VendorSignup">Sign Up</a></li>
+                                <li><a href="/UserLogin">User Login</a></li>
+                                <li><a href="/UserSignup">User Sign Up</a></li>
+
                             </ul>
                         </li>
                         <li><a href="contact.html">Contact Us</a></li>
@@ -175,7 +114,7 @@
                     </div>
                     <div class="phn-info">
                         <span>Call Us Now</span>
-                        <a href="tel:01701111000">+923 5677 891</a>
+                        <a href="tel:9235677891">+923 5677 891</a>
                     </div>
                 </div>
                 <div class="wishlist">
@@ -201,8 +140,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-wrapper">
-                            <h2>Vendor Login</h2>
-                            <span><a href="/VendorLogin">Home</a><i class="bi bi-chevron-right"></i>Admin login</span>
+                            <h2>About Us</h2>
+                            <span><a href="about.html">Home</a><i class="bi bi-chevron-right"></i>About Us</span>
                             <div class="arrow-down">
                                 <a href="#down"><i class="bi bi-chevron-down"></i></a>
                             </div>
@@ -213,37 +152,116 @@
         </section>
         <!-- End breadcrumbs section -->
 
-        <!-- Start login-area section -->
-        <section id="down" class="login-area sec-p">
+       
+        
+        
+
+        <!-- Start how-it-works section -->
+        <section class="how-it-works sec-m">
             <div class="container">
-                <div class="login-form">
-                    <h3>Vendor Login</h3>
-                    <form>
-                        <label for="email">Email*
-                            <input type="email"  id="email" placeholder="Your Email Here">
-                        </label>
-                        <label for="password">Password*
-                            <i class="bi bi-eye-slash" id="togglePassword"></i>
-                            <input type="password"  id="password" placeholder="Type Your Password">
-                        </label>
-                        <div class="terms-forgot">
-                            <p><input type="checkbox" name="agree">I agree to the <a href="#">Terms & Policy</a></p>
-                            <a href="#">Forgot Your Password</a>
+                <div class="row">
+                    <div class="col-12 wow animate fadeInDown" data-wow-delay="200ms" data-wow-duration="1500ms">
+                        <div class="sec-title layout-2">
+                            <div class="title-left">
+                                <span>Get A Services</span>
+                                <h2>How It Works</h2>
+                            </div>
+                            <div class="title-right">
+                                <strong>How It Works</strong>
+                            </div>
                         </div>
-                        <div class="cmn-btn">
-                            <input type="button" class="btn btn-info" onclick="Vendorlogincreds()" value="Login">
-                            <div class="other-signup">
-                                <h4>or Sign up WITH</h4>
-                                <div class="others-account">
-                                    <a href="https://www.google.com" class="google"><i class="fab fa-google"></i>Signup with google</a>
-                                    <a href="https://www.facebook.com" class="facebook"><i class="fab fa-facebook-f"></i>Sign up with facebook</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="how-work-left layout-2">
+                            <h4>3 Step To Take Our Services</h4>
+                            <div class="step wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                <h4><span>01</span>Select the Service</h4>
+
+                            </div>
+                            <div class="step wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                                <h4><span>02</span>Pick your schedule</h4>
+
+                            </div>
+                            <div class="step wow animate fadeInUp" data-wow-delay="600ms" data-wow-duration="1500ms">
+                                <h4><span>03</span>Place Your Order & Relax</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                        <div class="how-work-right layout-2">
+                            <div class="video-demo">
+                                <div class="video-thumb">
+                                    <img src="assets/images/work-video-thumb.jpg" alt="">
+                                    <div class="play">
+                                        <a class="popup-video" href="https://www.youtube.com/watch?v=0O2aH4XLbto"><i class="bi bi-play-fill"></i></a>
+                                    </div>
                                 </div>
                             </div>
-                    </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <!-- End login-area section -->
+        <!-- End how-it-works section -->
+
+        <!-- Start testimonial section -->
+
+        <!-- Start choose-us section -->
+        <section class="choose-us sec-m-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="choose-us-left">
+                            <div class="sec-title layout-2 wow animate fadeInDown" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                <div class="title-left">
+                                    <span>Trust Agency</span>
+                                    <h2>Why Choose Us</h2>
+                                    <p>We deliver dependable, high-quality doorstep services tailored to your needs. Our team is trained, trustworthy, and committed to your satisfaction.</p>
+                                </div>
+                            </div>
+                            <div class="choose-steps">
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-1.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>Ensuring Masks</h4>
+                                        <p>Your safety comes first. All our service professionals wear masks and follow strict health protocols during every visit.</p>
+                                    </div>
+                                </div>
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="600ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-2.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>24/7 Supports</h4>
+                                        <p>Need help at any hour? Our support team is available around the clock to assist you with bookings, issues, or questions.</p>
+                                    </div>
+                                </div>
+                                <div class="choose-step wow animate fadeInUp" data-wow-delay="800ms" data-wow-duration="1500ms">
+                                    <div class="icon">
+                                        <i><img src="assets/images/icons/choose-icon-3.jpg" alt=""></i>
+                                    </div>
+                                    <div class="choose-cnt">
+                                        <h4>Sanitising Hands</h4>
+                                        <p> Hygiene is a top priority. We ensure every team member sanitizes their hands before and after every service call.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow animate fadeInUp" data-wow-delay="400ms" data-wow-duration="1500ms">
+                        <div class="choose-us-right">
+                            <img src="assets/images/home2/choose-us.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End choose-us section -->
 
         <!-- Start footer section -->
         <footer class="footer-2">
@@ -256,6 +274,7 @@
                                 <div class="footer-logo">
                                     <a href="index.html"><img src="assets/images/footer-logo.svg" alt=""></a>
                                 </div>
+
                                 <div class="request-btn">
                                     <a href="contact.html">Request a Service</a>
                                 </div>
@@ -265,7 +284,7 @@
                             <div class="footer-widget">
                                 <h4>Explore On</h4>
                                 <ul class="footer-menu">
-                                    <li><a href="/VendorLogin">Home</a></li>
+                                    <li><a href="/about.html">Home</a></li>
                                     <li><a href="blog.html">Blog Grid</a></li>
                                     <li><a href="#">Help & Support</a></li>
                                     <li><a href="service-details.html">Services Details</a></li>
@@ -295,8 +314,8 @@
                                             <i class="fas fa-phone-alt"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="tel:01761111456">+923 5677 891</a>
-                                            <a href="tel:01761111555">+880 176 1111 555</a>
+                                            <a href="tel:9235677891">+923 5677 891</a>
+                                            <a href="tel:9235677891">+923 5677 891</a>
                                         </div>
                                     </div>
                                     <div class="info">
@@ -304,8 +323,8 @@
                                             <i class="far fa-envelope"></i>
                                         </div>
                                         <div class="desc">
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#8be2e5ede4cbeef3eae6fbe7eea5e8e4e6"><span class="__cf_email__" data-cfemail="6801060e07280d10090518040d460b0705">[email&#160;protected]</span></a>
-                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#6801060e07281b1d1818071a1c460b0705"><span class="__cf_email__" data-cfemail="d8b1b6beb798abada8a8b7aaacf6bbb7b5">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#640d0a020b24011c05091408014a070b09"><span class="__cf_email__" data-cfemail="3950575f56795c41585449555c175a5654">[email&#160;protected]</span></a>
+                                            <a href="https://demo-egenslab.b-cdn.net/cdn-cgi/l/email-protection#cca5a2aaa38cbfb9bcbca3beb8e2afa3a1"><span class="__cf_email__" data-cfemail="2b42454d446b585e5b5b44595f05484446">[email&#160;protected]</span></a>
                                         </div>
                                     </div>
                                     <div class="info">
@@ -370,5 +389,5 @@
     </body>
 
 
-    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:22:09 GMT -->
+    <!-- Mirrored from demo-egenslab.b-cdn.net/html/serve/preview/about.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 14 Apr 2025 10:23:24 GMT -->
 </html>

@@ -86,11 +86,11 @@
                     alert("Thanks for choosing us  ");
                     setTimeout(() => {
                         window.location.href = `/UserHome`;
-                    }, 5000);
+                    }, 1000);
                 }, 300);
                 $("#myModal1").modal("hide");
             }
-            
+
 
             function userShowRatings() {
                 const vendor_email = document.getElementById("d2").innerText.trim();
@@ -305,60 +305,154 @@ src="/images/${j < st.rating ? 'filled_star' : 'empty_star'}.png">`).join('')}
         </section>
         <!-- End hero-area-three section -->
         <br>
-
-        <!--                <div class="col-sm-12" style="text-align: center">
-                            <input type="button" class="btn btn-success" value="ADD REVIEW"
-                                   style="border-radius: 10px;text-shadow: 2px 2px 5px black;" onclick="review()" />
-                        </div>
-        
-                   <h2>Average Rating</h2>
-                        <div id="averagerating"></div>
-        
-                   <h2>All Ratings</h2>
-                        <div id="showratings"></div>
-        
-                   Modal for Add Review 
-                        <div class="modal" id="myModal1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header" style="background: yellowgreen;">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title" style="color: white;">Add Review</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="form1">
-                                            <label class="form-group">Give Ratings..</label>
-                                            <table>
-                                                <tr>
-                                                    <td><img id="rating_1" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
-                                                    <td><img id="rating_2" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
-                                                    <td><img id="rating_3" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
-                                                    <td><img id="rating_4" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
-                                                    <td><img id="rating_5" src="images/empty_star.png" onmouseover="fill(this);" onmouseout="unfill(this);" onclick="selected(this);" width="50px;" height="50px;"></td>
-                                                </tr>
-                                            </table>
-                                            <br>
-                                            <label>Write Comment:</label>
-                                            <input type="text" id="comment" class="form-group" style="border-radius: 20px;" />
-                                            <input type="button" value="Submit" class="btn btn-primary" onclick="addreview()" />
-                                            <label style="display: none; color: tomato;" id="label1">Please Select Any Rating</label>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer" style="background: yellowgreen;">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-
-        <!-- Trigger button for modal -->
-        <div class="container" style="text-align:center">
-            <button class="btn btn-success" onclick="review()" >Leave a Review</button>
+        <br>
+        <div class="container" style="text-align:center;color:black">
+            <h2>Reviews from our Top Customers</h2>
         </div>
-        <!-- Vendor email stored here -->
-        <div id="d2" style="display: none;"></div>
+        <div class="container">
+            <div class="row g-4">
 
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/fifthreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 21 May, 2025</span>
+                            <h4 style="color: #333;">⭐ "Excellent service and friendly staff!"</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/fourthreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 25 May, 2025</span>
+                            <h4 style="color: #333;">⭐ "Quick response and very professional!"</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star" style="color: orange;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/thirdreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 27 May, 2025</span>
+                            <h4 style="color: #333;">⭐ "Highly satisfied with the overall experience."</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/firstreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 30 May, 2025</span>
+                            <h4 style="color: #333;">⭐ "Great value for money and quality work."</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star" style="color: orange;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/secondreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 31 May, 2025</span>
+                            <h4 style="color: #333;">⭐ "Smooth booking process and reliable service."</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star" style="color: orange;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow animate fadeInRight" data-wow-delay="200ms" data-wow-duration="1500ms">
+                    <div class="single-blog layout-2">
+                        <div class="blog-thumb" style="height:240px">
+                            <img src="assets/images/blog/sixthreview.jpg" alt="">
+                        </div>
+                        <div class="blog-inner">
+                            <span><i class="bi bi-calendar-week"></i> 2 June, 2025</span>
+                            <h4 style="color: #333;">⭐ "Definitely recommending this to friends!"</h4>
+                            <div class="star-rating">
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                                <i class="bi bi-star-fill" style="color: orange;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <hr>
+        
+        <!-- Review Prompt + Button in one row -->
+        <div class="container my-4">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-auto">
+                    <p class="mb-0 fw-bold">Add your review here:</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-success" onclick="review()">Leave a Review</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden vendor email container -->
+        <div id="d2" style="display: none;"></div>
+        
         <!-- Review Modal -->
         <div class="modal" id="myModal1">
             <div class="modal-dialog">
